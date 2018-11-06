@@ -4,7 +4,7 @@ import {
   createStackNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 class DonateScreen extends React.Component {
   render() {
@@ -42,7 +42,7 @@ const DonateStack = createStackNavigator(
   },
   {
     navigationOptions: {
-      title: "DONATE!!!"
+      title: "Donate"
     }
   }
 );
@@ -53,7 +53,7 @@ const HomeStack = createStackNavigator(
   },
   {
     navigationOptions: {
-      title: "HOME!!!"
+      title: "Metro MD ReStore"
     }
   }
 );
@@ -64,33 +64,60 @@ const InfoStack = createStackNavigator(
   },
   {
     navigationOptions: {
-      title: "INFO!!!"
+      title: "More Info"
     }
   }
 );
 
 export default createBottomTabNavigator(
   {
-    Donate: {
-      screen: DonateStack,
+    Info: {
+      screen: InfoStack,
       navigationOptions: {
-        tabBarIcon: <Ionicons name="ios-gift" size={25} />
+        tabBarLabel: "Info",
+        tabBarIcon: ({ focused, tintColor }) => (
+          <MaterialCommunityIcons
+            name={`information${focused ? "" : "-outline"}`}
+            size={25}
+            color={tintColor}
+          />
+        )
       }
     },
     Home: {
       screen: HomeStack,
       navigationOptions: {
-        tabBarIcon: <Ionicons name="ios-home" size={25} />
+        tabBarLabel: "Store",
+        tabBarIcon: ({ focused, tintColor }) => (
+          <MaterialCommunityIcons
+            name={`home${focused ? "" : "-outline"}`}
+            size={25}
+            color={tintColor}
+          />
+        )
       }
     },
-    Info: {
-      screen: InfoStack,
+    Donate: {
+      screen: DonateStack,
       navigationOptions: {
-        tabBarIcon: <Ionicons name="ios-information-circle" size={25} />
+        tabBarLabel: "Donate",
+        tabBarIcon: ({ focused, tintColor }) => (
+          <MaterialCommunityIcons
+            name={`heart${focused ? "" : "-outline"}`}
+            size={25}
+            color={tintColor}
+          />
+        )
       }
     }
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Home",
+    tabBarOptions: {
+      showIcon: true,
+      showLabel: true,
+      activeTintColor: "#005596",
+      inactiveTintColor: "gray"
+    }
   }
 );
