@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { Text, ScrollView } from "react-native";
 import { WebBrowser } from "expo";
 import styled from "styled-components/native";
 
@@ -30,8 +30,12 @@ const DonateScreen = () => (
         or Sun 12pm-4pm
       </Text>
       <Header>Questions?</Header>
-      <Text>Call 301-926-4104 OR</Text>
-      <Text>Email ReStore@HabitatMM.org</Text>
+      <Text>
+        <Text style={{ fontWeight: "bold" }}>Phone:</Text> 301-926-4104
+      </Text>
+      <Text style={{ marginTop: 2 }}>
+        <Text style={{ fontWeight: "bold" }}>Email:</Text> ReStore@HabitatMM.org
+      </Text>
       <Header>What we accept</Header>
       <ItemTitle>Appliances All appliances accepted</ItemTitle>
       <ItemDetail>
@@ -44,9 +48,9 @@ const DonateScreen = () => (
       </ItemDetail>
       <ItemTitle>Cabinets</ItemTitle>
       <ItemDetail>
-        Must be complete units, sTextucturally intact; must have doors,
-        shelving, display racks, etc.; single cabinets (pieces) will be taken on
-        a case by case basis
+        Must be complete units, sucturally intact; must have doors, shelving,
+        display racks, etc.; single cabinets (pieces) will be taken on a case by
+        case basis
       </ItemDetail>
       <ItemTitle>Flooring material</ItemTitle>
       <ItemDetail>
@@ -148,7 +152,7 @@ const ItemTitle = styled.Text`
 `;
 
 const ItemDetail = styled.Text`
-  color: ${props => props.theme.colors.dark};
+  /* color: ${props => props.theme.colors.dark}; */
   margin-top: 2;
   margin-bottom: 10;
 `;

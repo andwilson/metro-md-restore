@@ -60,7 +60,8 @@ const HomeStack = createStackNavigator(
     navigationOptions: ({ navigation }) => ({
       title: "Metro MD ReStore",
       headerRight: <DrawerButton navigation={navigation} />
-    })
+    }),
+    cardStyle: { backgroundColor: theme.colors.light }
   }
 );
 
@@ -70,8 +71,9 @@ const InfoStack = createStackNavigator(
   },
   {
     navigationOptions: {
-      title: "More Info"
-    }
+      title: "Information"
+    },
+    cardStyle: { backgroundColor: theme.colors.light }
   }
 );
 
@@ -118,7 +120,7 @@ const TabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Donate",
+    initialRouteName: "Info",
     tabBarOptions: {
       showIcon: true,
       showLabel: true,
