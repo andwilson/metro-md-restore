@@ -69,13 +69,14 @@ const InfoScreen = () => (
           size={40}
           color="#00aced"
           onPress={() => {
-            WebBrowser.openBrowserAsync(
-              "https://twitter.com/ReStoreMetroMD"
-            );
+            WebBrowser.openBrowserAsync("https://twitter.com/ReStoreMetroMD");
           }}
         />
       </Social>
     </Container>
+    <Button onPress={() => console.log("Go to sign-in screen")}>
+      <ButtonText>Admin sign-in</ButtonText>
+    </Button>
   </ScrollView>
 );
 
@@ -83,7 +84,6 @@ const Container = styled.View`
   flex: 1;
   padding-top: 20;
   padding-right: 20;
-  padding-bottom: 20;
   padding-left: 20;
 `;
 
@@ -103,8 +103,25 @@ const Header = styled.Text`
 const Social = styled.View`
   flex: 1;
   margin-top: 30;
+  margin-bottom: 30;
   flex-direction: row;
   justify-content: space-around;
+`;
+
+const Button = styled.TouchableOpacity`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.theme.colors.secondaryLight};
+  margin-bottom: 50;
+  padding-top: 15;
+  padding-bottom: 15;
+  align-content: center;
+`;
+
+const ButtonText = styled.Text`
+  font-size: 16;
+  font-weight: bold;
 `;
 
 export default InfoScreen;
