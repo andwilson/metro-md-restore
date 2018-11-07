@@ -1,8 +1,9 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import {
   createStackNavigator,
-  createBottomTabNavigator
+  createBottomTabNavigator,
+  createDrawerNavigator
 } from "react-navigation";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -53,7 +54,19 @@ const HomeStack = createStackNavigator(
   },
   {
     navigationOptions: {
-      title: "Metro MD ReStore"
+      title: "Metro MD ReStore",
+      headerRight: (
+        <TouchableOpacity
+          onPress={() => console.log("Open filter drawer")}
+          style={{ paddingRight: 15 }}
+        >
+          <MaterialCommunityIcons
+            name="filter-variant"
+            size={25}
+            color="gray"
+          />
+        </TouchableOpacity>
+      )
     }
   }
 );
