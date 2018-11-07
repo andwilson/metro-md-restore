@@ -3,7 +3,8 @@ import { Text, View, TouchableOpacity } from "react-native";
 import {
   createStackNavigator,
   createBottomTabNavigator,
-  createDrawerNavigator
+  createDrawerNavigator,
+  DrawerActions
 } from "react-navigation";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -48,26 +49,39 @@ const DonateStack = createStackNavigator(
   }
 );
 
-const HomeStack = createStackNavigator(
+const HomeDrawer = createDrawerNavigator(
   {
     Home: HomeScreen
   },
   {
-    navigationOptions: {
-      title: "Metro MD ReStore",
-      headerRight: (
-        <TouchableOpacity
-          onPress={() => console.log("Open filter drawer")}
-          style={{ paddingRight: 15 }}
-        >
-          <MaterialCommunityIcons
-            name="filter-variant"
-            size={25}
-            color="gray"
-          />
-        </TouchableOpacity>
-      )
+    contentComponent: () => {
+      return (
+        <View>
+          <Text>Filters</Text>
+        </View>
+      );
     }
+  }
+);
+
+const DrawerButton = props => (
+  <TouchableOpacity
+    onPress={() => {props.navigation.dispatch(DrawerActions.toggleDrawer())}}
+    style={{ paddingRight: 15 }}
+  >
+    <MaterialCommunityIcons name="filter-variant" size={25} color="gray" />
+  </TouchableOpacity>
+);
+
+const HomeStack = createStackNavigator(
+  {
+    Home: HomeDrawer
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      title: "Metro MD ReStore",
+      headerRight: <DrawerButton navigation={navigation} />
+    })
   }
 );
 
