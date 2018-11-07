@@ -8,35 +8,9 @@ import {
 } from "react-navigation";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-class DonateScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Donate!</Text>
-      </View>
-    );
-  }
-}
-
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Home!</Text>
-      </View>
-    );
-  }
-}
-
-class InfoScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Info!</Text>
-      </View>
-    );
-  }
-}
+import InfoScreen from "./screens/InfoScreen";
+import HomeScreen from "./screens/HomeScreen";
+import DonateScreen from "./screens/DonateScreen";
 
 const DonateStack = createStackNavigator(
   {
