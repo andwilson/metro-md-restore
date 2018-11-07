@@ -13,17 +13,15 @@ const DonateScreen = () => (
       <Header>Pick-up</Header>
       <Text>
         Schedule a truck to pick-up your donation for free by calling
-        301-926-4104 or filling out our{" "}
-        <OpenWebPage
-          onPress={() => {
-            WebBrowser.openBrowserAsync(
-              "http://habitatmm.org/donation+pick+up"
-            );
-          }}
-        >
-          online form
-        </OpenWebPage>
+        301-926-4104 or filling out our online form
       </Text>
+      <Button
+        onPress={() => {
+          WebBrowser.openBrowserAsync("http://habitatmm.org/donation+pick+up");
+        }}
+      >
+        <ButtonText>Pick-up form</ButtonText>
+      </Button>
       <Header>Drop-off</Header>
       <Text>
         Drop-off your donation at Rockville or Silver Springs Mon-Sat 10am-5pm
@@ -159,6 +157,23 @@ const ItemDetail = styled.Text`
 
 const OpenWebPage = styled.Text`
   color: ${props => props.theme.colors.secondary};
+  font-weight: bold;
+`;
+
+const Button = styled.TouchableOpacity`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.theme.colors.secondaryLight};
+  margin-top: 20;
+  margin-bottom: 15;
+  padding-top: 10;
+  padding-bottom: 15;
+  align-content: center;
+`;
+
+const ButtonText = styled.Text`
+  font-size: 16;
   font-weight: bold;
 `;
 
