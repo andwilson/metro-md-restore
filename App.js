@@ -1,13 +1,16 @@
 import React, { Component } from "react";
+import { ThemeProvider } from "styled-components/native";
 
 import Navigation from "./src/Navigation";
-//import theme from "./src/theme";
+import theme from "./src/theme";
 
 class App extends Component {
   state = {};
   render() {
     return (
-        <Navigation />
+      <ThemeProvider theme={theme}>
+        <Navigation/>
+      </ThemeProvider>
     );
   }
 }

@@ -12,6 +12,8 @@ import InfoScreen from "./screens/InfoScreen";
 import HomeScreen from "./screens/HomeScreen";
 import DonateScreen from "./screens/DonateScreen";
 
+import theme from "./theme";
+
 const DonateStack = createStackNavigator(
   {
     Donate: DonateScreen
@@ -19,7 +21,8 @@ const DonateStack = createStackNavigator(
   {
     navigationOptions: {
       title: "Donate"
-    }
+    },
+    cardStyle: { backgroundColor: theme.colors.light }
   }
 );
 
@@ -40,7 +43,9 @@ const HomeDrawer = createDrawerNavigator(
 
 const DrawerButton = props => (
   <TouchableOpacity
-    onPress={() => {props.navigation.dispatch(DrawerActions.toggleDrawer())}}
+    onPress={() => {
+      props.navigation.dispatch(DrawerActions.toggleDrawer());
+    }}
     style={{ paddingRight: 15 }}
   >
     <MaterialCommunityIcons name="filter-variant" size={25} color="gray" />
@@ -70,7 +75,7 @@ const InfoStack = createStackNavigator(
   }
 );
 
-export default createBottomTabNavigator(
+const TabNavigator = createBottomTabNavigator(
   {
     Info: {
       screen: InfoStack,
@@ -122,3 +127,5 @@ export default createBottomTabNavigator(
     }
   }
 );
+
+export default TabNavigator;
