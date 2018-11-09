@@ -11,20 +11,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import InfoScreen from "./screens/InfoScreen";
 import HomeScreen from "./screens/HomeScreen";
 import DonateScreen from "./screens/DonateScreen";
+import SignInScreen from "./screens/SignInScreen";
 
 import theme from "./theme";
-
-const DonateStack = createStackNavigator(
-  {
-    Donate: DonateScreen
-  },
-  {
-    navigationOptions: {
-      title: "Donate"
-    },
-    cardStyle: { backgroundColor: theme.colors.light }
-  }
-);
 
 const HomeDrawer = createDrawerNavigator(
   {
@@ -67,11 +56,30 @@ const HomeStack = createStackNavigator(
 
 const InfoStack = createStackNavigator(
   {
-    Info: InfoScreen
+    Info: InfoScreen,
+    SignIn: {
+      screen: SignInScreen,
+      navigationOptions: {
+        title: "Admin"
+      }
+    }
   },
   {
     navigationOptions: {
       title: "Information"
+    },
+    cardStyle: { backgroundColor: theme.colors.light },
+    initialRouteName: "SignIn"
+  }
+);
+
+const DonateStack = createStackNavigator(
+  {
+    Donate: DonateScreen
+  },
+  {
+    navigationOptions: {
+      title: "Donate"
     },
     cardStyle: { backgroundColor: theme.colors.light }
   }
