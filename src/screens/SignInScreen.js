@@ -22,6 +22,11 @@ class SignInScreen extends Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState({ email: "", password: "", error: "", loading: false });
+        this.props.navigation.goBack();
+        this.props.navigation.navigate("Home");
+      })
       .catch(() =>
         this.setState({ error: "Login attempt failed", loading: false })
       );

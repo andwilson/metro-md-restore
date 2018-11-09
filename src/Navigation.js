@@ -68,8 +68,7 @@ const InfoStack = createStackNavigator(
     navigationOptions: {
       title: "Information"
     },
-    cardStyle: { backgroundColor: theme.colors.light },
-    initialRouteName: "SignIn"
+    cardStyle: { backgroundColor: theme.colors.light }
   }
 );
 

@@ -6,20 +6,26 @@ import theme from "./src/theme";
 
 import * as firebase from "firebase";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBVGeBWml4I9LkXo3psb_itg-EIATRtDWQ",
-  authDomain: "metro-md-restore.firebaseapp.com",
-  databaseURL: "https://metro-md-restore.firebaseio.com",
-  projectId: "metro-md-restore",
-  storageBucket: "metro-md-restore.appspot.com",
-  messagingSenderId: "989908703673"
-};
-
 class App extends Component {
-  state = {};
+  state = { loggedIn: false };
 
   componentWillMount() {
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp({
+      apiKey: "AIzaSyBVGeBWml4I9LkXo3psb_itg-EIATRtDWQ",
+      authDomain: "metro-md-restore.firebaseapp.com",
+      databaseURL: "https://metro-md-restore.firebaseio.com",
+      projectId: "metro-md-restore",
+      storageBucket: "metro-md-restore.appspot.com",
+      messagingSenderId: "989908703673"
+    });
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    });
   }
 
   render() {
