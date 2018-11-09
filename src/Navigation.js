@@ -127,7 +127,7 @@ const TabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Info",
+    initialRouteName: "Home",
     tabBarOptions: {
       showIcon: true,
       showLabel: true,
