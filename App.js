@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { ThemeProvider } from "styled-components/native";
+import * as firebase from "firebase";
 
 import Navigation from "./src/Navigation";
-import theme from "./src/theme";
+import AppNavigator from "./src/AppNavigator";
 
-import * as firebase from "firebase";
+import theme from "./src/theme";
 
 class App extends Component {
   state = { loggedIn: false };
@@ -31,7 +32,8 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Navigation loggedIn={this.state.loggedIn}/>
+        {/* <Navigation loggedIn={this.state.loggedIn} /> */}
+        <AppNavigator />
       </ThemeProvider>
     );
   }
