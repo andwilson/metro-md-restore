@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import {
   createStackNavigator,
   createBottomTabNavigator,
@@ -13,6 +13,8 @@ import HomeScreen from "./screens/HomeScreen";
 import DonateScreen from "./screens/DonateScreen";
 import SignInScreen from "./screens/SignInScreen";
 import Filters from "./components/Filters";
+
+import logo from "../assets/habitat-logo-smallest.png";
 
 import theme from "./theme";
 
@@ -36,6 +38,15 @@ const DrawerButton = props => (
   </TouchableOpacity>
 );
 
+const HeaderLogo = () => (
+  <View style={{ marginLeft: -20, height: 28, display: "flex" }}>
+    <Image
+      source={logo}
+      style={{ flex: 1, height: 100, resizeMode: "contain" }}
+    />
+  </View>
+);
+
 const HomeStack = createStackNavigator(
   {
     Home: HomeDrawer
@@ -43,7 +54,8 @@ const HomeStack = createStackNavigator(
   {
     navigationOptions: ({ navigation }) => ({
       title: "Metro MD ReStore",
-      headerRight: <DrawerButton navigation={navigation} />
+      headerRight: <DrawerButton navigation={navigation} />,
+      headerLeft: <HeaderLogo />
     }),
     cardStyle: { backgroundColor: theme.colors.light }
   }
@@ -51,7 +63,13 @@ const HomeStack = createStackNavigator(
 
 const InfoStack = createStackNavigator(
   {
-    Info: InfoScreen,
+    Info: {
+      screen: InfoScreen,
+      navigationOptions: {
+        title: "Information",
+        headerLeft: <HeaderLogo />
+      }
+    },
     SignIn: {
       screen: SignInScreen,
       navigationOptions: {
@@ -60,9 +78,6 @@ const InfoStack = createStackNavigator(
     }
   },
   {
-    navigationOptions: {
-      title: "Information"
-    },
     cardStyle: { backgroundColor: theme.colors.light }
   }
 );
@@ -73,7 +88,8 @@ const DonateStack = createStackNavigator(
   },
   {
     navigationOptions: {
-      title: "Donate"
+      title: "Donate",
+      headerLeft: <HeaderLogo />
     },
     cardStyle: { backgroundColor: theme.colors.light }
   }

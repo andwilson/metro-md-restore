@@ -31,7 +31,7 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Navigation />
+        <Navigation loggedIn={this.state.loggedIn}/>
       </ThemeProvider>
     );
   }
