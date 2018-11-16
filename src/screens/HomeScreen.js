@@ -1,16 +1,43 @@
 import React, { Component } from "react";
-import { Content } from "native-base";
-import firebase from "firebase";
+import { FlatList, Dimensions } from "react-native";
+import { Content, Spinner, View } from "native-base";
+import styled from "styled-components/native";
+import * as firebase from "firebase";
 
 import ItemCard from "../components/ItemCard";
 
-import data from "../data";
+import theme from "../theme";
 
 class HomeScreen extends Component {
-  state = { items: [], loading: false };
+  state = { items: [], loading: true };
 
-  componentWillMount() {
-    Object.values(data.items).map(item => console.log(item));
+  componentDidMount() {
+    const itemsRef = firebase.database().ref("/items/");
+
+    itemsRef.on("value", snapshot => {
+      const itemsArray = this.snapshotToArray(snapshot.val());
+      this.setState({ items: itemsArray, loading: false });
+    });
+  }
+
+  snapshotToArray = snapshot =>
+    Object.entries(snapshot).map(e => Object.assign(e[1], { key: e[0] }));
+
+  renderItems() {
+    if (this.state.loading) {
+      return (
+        <SpinnerView>
+          <Spinner color={theme.colors.primary} />
+        </SpinnerView>
+      );
+    }
+
+    return (
+      <FlatList
+        data={this.state.items}
+        renderItem={({ item }) => <ItemCard item={item} key={item.key} />}
+      />
+    );
   }
 
   // addItem() {
@@ -24,12 +51,15 @@ class HomeScreen extends Component {
   // }
 
   render() {
-    return (
-      <Content padder>
-        {Object.values(data.items).map(item => <ItemCard item={item} key={item.title}/>)}
-      </Content>
-    );
+    return <View padder>{this.renderItems()}</View>;
   }
 }
+
+const SpinnerView = styled.View`
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default HomeScreen;

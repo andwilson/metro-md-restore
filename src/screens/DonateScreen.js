@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
+import { Text, Button } from "native-base";
 import { WebBrowser } from "expo";
 import styled from "styled-components/native";
 
@@ -15,13 +16,14 @@ const DonateScreen = () => (
         Schedule a truck to pick-up your donation for free by calling
         301-926-4104 or filling out our online form
       </Text>
-      <Button
+      <StyButton
+        block
         onPress={() => {
           WebBrowser.openBrowserAsync("http://habitatmm.org/donation+pick+up");
         }}
       >
-        <ButtonText>Pick-up form</ButtonText>
-      </Button>
+        <Text>Pick-up form</Text>
+      </StyButton>
       <Header>Drop-off</Header>
       <Text>
         Drop-off your donation at Rockville or Silver Springs Mon-Sat 10am-5pm
@@ -133,7 +135,7 @@ const Container = styled.View`
 `;
 
 const Intro = styled.Text`
-  font-size: 16;
+  font-size: 18;
   font-weight: 200;
 `;
 
@@ -160,21 +162,10 @@ const OpenWebPage = styled.Text`
   font-weight: bold;
 `;
 
-const Button = styled.TouchableOpacity`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => props.theme.colors.secondaryLight};
+const StyButton = styled(Button)`
+  background-color: ${props => props.theme.colors.secondary};
   margin-top: 20;
   margin-bottom: 15;
-  padding-top: 10;
-  padding-bottom: 15;
-  align-content: center;
-`;
-
-const ButtonText = styled.Text`
-  font-size: 16;
-  font-weight: bold;
 `;
 
 export default DonateScreen;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import {
   createStackNavigator,
   createBottomTabNavigator,
@@ -12,6 +12,7 @@ import InfoScreen from "./screens/InfoScreen";
 import HomeScreen from "./screens/HomeScreen";
 import DonateScreen from "./screens/DonateScreen";
 import SignInScreen from "./screens/SignInScreen";
+import Filters from "./components/Filters";
 
 import theme from "./theme";
 
@@ -20,13 +21,7 @@ const HomeDrawer = createDrawerNavigator(
     Home: HomeScreen
   },
   {
-    contentComponent: () => {
-      return (
-        <View>
-          <Text>Filters</Text>
-        </View>
-      );
-    }
+    contentComponent: () => <Filters />
   }
 );
 
