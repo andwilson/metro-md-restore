@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { FlatList, Dimensions } from "react-native";
-import { Content, Spinner, View } from "native-base";
+import { FlatList } from "react-native";
+import { Spinner, View, Button, Text } from "native-base";
 import styled from "styled-components/native";
 import * as firebase from "firebase";
 
@@ -9,7 +9,7 @@ import ItemCard from "../components/ItemCard";
 import theme from "../theme";
 
 class HomeScreen extends Component {
-  state = { items: [], loading: true };
+  state = { items: [], loading: true, loggedIn: false };
 
   componentDidMount() {
     const itemsRef = firebase.database().ref("/items/");
@@ -20,8 +20,31 @@ class HomeScreen extends Component {
     });
   }
 
+  componentWillMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    });
+  }
+
   snapshotToArray = snapshot =>
     Object.entries(snapshot).map(e => Object.assign(e[1], { key: e[0] }));
+
+  renderAddItem() {
+    if (this.state.loggedIn) {
+      return (
+        <StyButton
+          block
+          onPress={() => this.props.navigation.navigate("AddItemScreen")}
+        >
+          <Text>Add Item</Text>
+        </StyButton>
+      );
+    }
+  }
 
   renderItems() {
     if (this.state.loading) {
@@ -51,7 +74,13 @@ class HomeScreen extends Component {
   // }
 
   render() {
-    return <View padder>{this.renderItems()}</View>;
+    return (
+      <View padder>
+        <Text>{this.state.loggedIn ? "Hello user" : "Hello visitor"}</Text>
+        {this.renderAddItem()}
+        <View>{this.renderItems()}</View>
+      </View>
+    );
   }
 }
 
@@ -60,6 +89,12 @@ const SpinnerView = styled.View`
   height: 100%;
   align-items: center;
   justify-content: center;
+`;
+
+const StyButton = styled(Button)`
+  background-color: ${props => props.theme.colors.secondary};
+  margin-top: 30;
+  margin-bottom: 30;
 `;
 
 export default HomeScreen;

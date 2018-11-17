@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import {
   Scene,
   Router,
@@ -18,20 +18,11 @@ import DonateScreen from "./screens/DonateScreen";
 import AddItemScreen from "./screens/AddItemScreen";
 import Filters from "./components/Filters";
 
+import DrawerButton from "./components/DrawerButton";
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import theme from "./theme";
-
-const DrawerButton = () => (
-  <TouchableOpacity
-    onPress={() => {
-      Actions.Filters;
-    }}
-    style={{ paddingRight: 15 }}
-  >
-    <MaterialCommunityIcons name="filter-variant" size={25} color="gray" />
-  </TouchableOpacity>
-);
 
 const InfoIcon = ({ focused, tintColor }) => (
   <MaterialCommunityIcons
@@ -57,6 +48,12 @@ const DonateIcon = ({ focused, tintColor }) => (
   />
 );
 
+// const DrawerButton = () => (
+//   <TouchableOpacity style={{ paddingRight: 15 }}>
+//     <MaterialCommunityIcons name="filter-variant" size={25} color="gray" />
+//   </TouchableOpacity>
+// );
+
 const AppNavigator = () => (
   <Router>
     <Scene key="root">
@@ -76,15 +73,14 @@ const AppNavigator = () => (
           />
           <Scene key="SignInScreen" component={SignInScreen} title="Admin" />
         </Stack>
-        <Stack key="HomeStack" tabBarLabel="Home" icon={HomeIcon} initial>
-          <Scene
-            key="HomeScreen"
-            component={HomeScreen}
-            title="ReStore Metro MD"
-            renderRightButton={DrawerButton}
-            initial
-          />
-          <Drawer key="Filters" component={Filters} />
+        <Stack title="ReStore Metro MD" icon={HomeIcon} renderRightButton={DrawerButton} initial>
+          <Drawer key="Drawer" contentComponent={Filters} hideDrawerButton hideNavBar>
+            <Scene
+              key="HomeScreen"
+              component={HomeScreen}
+              
+            />
+          </Drawer>
         </Stack>
         <Scene
           key="DonateScreen"

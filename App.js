@@ -19,21 +19,13 @@ class App extends Component {
       storageBucket: "metro-md-restore.appspot.com",
       messagingSenderId: "989908703673"
     });
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.setState({ loggedIn: true });
-      } else {
-        this.setState({ loggedIn: false });
-      }
-    });
   }
 
   render() {
     return (
       <ThemeProvider theme={theme}>
-        {/* <Navigation loggedIn={this.state.loggedIn} /> */}
-        <AppNavigator />
+        <Navigation loggedIn={this.state.loggedIn} />
+        {/* <AppNavigator /> */}
       </ThemeProvider>
     );
   }

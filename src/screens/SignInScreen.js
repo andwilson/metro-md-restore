@@ -15,10 +15,6 @@ import theme from "../theme";
 class SignInScreen extends Component {
   state = { email: "", password: "", error: "", loading: false };
 
-  componentDidMount() {
-    console.log(this.props.loggedIn);
-  }
-
   onButtonPress() {
     this.setState({ error: "", loading: true });
 

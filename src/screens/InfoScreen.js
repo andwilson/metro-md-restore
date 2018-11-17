@@ -11,12 +11,52 @@ import {
   H2,
   H3
 } from "native-base";
+import * as firebase from "firebase";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { WebBrowser } from "expo";
 
 import theme from "../theme";
 
 class InfoScreen extends Component {
+  state = { loggedIn: false };
+
+  componentWillMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    });
+  }
+
+  LogOut() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.props.navigation.navigate("Home");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  renderSignIn() {
+    if (this.state.loggedIn) {
+      return (
+        <StyButton block onPress={this.LogOut.bind(this)}>
+          <Text>Log out</Text>
+        </StyButton>
+      );
+    }
+    return (
+      <StyButton block onPress={() => this.props.navigation.navigate("SignIn")}>
+        <Text>Admin sign-in</Text>
+      </StyButton>
+    );
+  }
+
   render() {
     return (
       <Content padder>
@@ -124,12 +164,7 @@ class InfoScreen extends Component {
             </Social>
           </CardItem>
         </Card>
-        <StyButton
-          block
-          onPress={() => this.props.navigation.navigate("SignIn")}
-        >
-          <Text>Admin sign-in</Text>
-        </StyButton>
+        {this.renderSignIn()}
       </Content>
     );
   }
