@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Switch } from "react-native";
-import styled from "styled-components/native";
-import { Container, Content, View, Text, H3, Button } from "native-base";
+import { Container, Content, Text, H3, Button } from "native-base";
 
+import LeftRight from "./LeftRight";
 import CategoryFilter from "../components/CategoryFilter";
 
 import theme from "../theme";
@@ -38,16 +38,5 @@ class Filters extends Component {
     );
   }
 }
-
-const LeftRight = styled(View)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 10;
-  padding-bottom: 10;
-  padding-left: 10;
-  padding-right: 10;
-`;
 
 export default Filters;

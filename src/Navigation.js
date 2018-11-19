@@ -13,6 +13,7 @@ import HomeScreen from "./screens/HomeScreen";
 import DonateScreen from "./screens/DonateScreen";
 import SignInScreen from "./screens/SignInScreen";
 import Filters from "./components/Filters";
+import AddItemScreen from "./screens/AddItemScreen";
 
 import logo from "../assets/habitat-logo-smallest.png";
 
@@ -49,14 +50,22 @@ const HeaderLogo = () => (
 
 const HomeStack = createStackNavigator(
   {
-    Home: HomeDrawer
+    Home: {
+      screen: HomeDrawer,
+      navigationOptions: ({ navigation }) => ({
+        title: "Metro MD ReStore",
+        headerRight: <DrawerButton navigation={navigation} />,
+        headerLeft: <HeaderLogo />
+      })
+    },
+    AddItem: {
+      screen: AddItemScreen,
+      navigationOptions: {
+        title: "Add Item",
+      }
+    }
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      title: "Metro MD ReStore",
-      headerRight: <DrawerButton navigation={navigation} />,
-      headerLeft: <HeaderLogo />
-    }),
     cardStyle: { backgroundColor: theme.colors.light }
   }
 );

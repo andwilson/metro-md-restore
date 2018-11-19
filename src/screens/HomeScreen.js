@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
-import { Spinner, View, Button, Text } from "native-base";
+import { Container, Spinner, View, Button, Text, Fab } from "native-base";
 import styled from "styled-components/native";
+import { Actions } from "react-navigation";
 import * as firebase from "firebase";
-
-import ItemCard from "../components/ItemCard";
+import { Ionicons } from "@expo/vector-icons";
 
 import theme from "../theme";
+
+import ItemCard from "../components/ItemCard";
 
 class HomeScreen extends Component {
   state = { items: [], loading: true, loggedIn: false };
@@ -36,12 +38,13 @@ class HomeScreen extends Component {
   renderAddItem() {
     if (this.state.loggedIn) {
       return (
-        <StyButton
-          block
-          onPress={() => this.props.navigation.navigate("AddItemScreen")}
+        <Fab
+          position="bottomRight"
+          onPress={() => this.props.navigation.navigate("AddItem")}
+          style={{ backgroundColor: theme.colors.primary }}
         >
-          <Text>Add Item</Text>
-        </StyButton>
+          <Ionicons name="md-add" />
+        </Fab>
       );
     }
   }
@@ -75,11 +78,10 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <View padder>
-        <Text>{this.state.loggedIn ? "Hello user" : "Hello visitor"}</Text>
-        {this.renderAddItem()}
+      <Container padder>
         <View>{this.renderItems()}</View>
-      </View>
+        {this.renderAddItem()}
+      </Container>
     );
   }
 }

@@ -7,7 +7,14 @@ import TimeAgo from "react-native-timeago";
 const ItemCard = ({ item }) => {
   const { title, category, price, location, posted, description, image } = item;
   return (
-    <Card>
+    <Card
+      style={{
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 5,
+        marginBottom: 5
+      }}
+    >
       <ImageContainer>
         <Image
           source={{ uri: image }}
@@ -29,7 +36,9 @@ const ItemCard = ({ item }) => {
             </Text>
             {/* <Text note>{posted + "Z"}</Text> */}
           </StyText>
-          <StyText note style={{color: "black"}}>{description}</StyText>
+          <StyText note style={{ color: "black" }}>
+            {description}
+          </StyText>
         </View>
       </CardItem>
     </Card>
