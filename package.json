@@ -18,7 +18,8 @@
     "react-native-router-flux": "^4.0.6",
     "react-native-timeago": "^0.4.0",
     "react-navigation": "^2.18.2",
-    "styled-components": "^4.0.3"
+    "styled-components": "^4.0.3",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"

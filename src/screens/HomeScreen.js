@@ -60,6 +60,7 @@ class HomeScreen extends Component {
 
     return (
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={this.state.items}
         renderItem={({ item }) => <ItemCard item={item} key={item.key} />}
       />

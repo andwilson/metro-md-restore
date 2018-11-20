@@ -12,7 +12,9 @@ import {
   Content
 } from "native-base";
 import styled from "styled-components/native";
-import firebase from "firebase";
+import { Permissions, ImagePicker } from "expo";
+import * as firebase from "firebase";
+import uuid from "uuid";
 
 import theme from "../theme";
 
@@ -53,7 +55,9 @@ class AddItemScreen extends Component {
     category: CATEGORIES[0],
     description: "",
     error: "",
-    loading: false
+    loading: false,
+    image: null,
+    uploading: false
   };
 
   onFormSubmit() {
@@ -86,6 +90,66 @@ class AddItemScreen extends Component {
       });
   }
 
+  handleLocationToggle() {
+    this.setState(state => ({
+      RockvilleToggle: !state.RockvilleToggle,
+      SilverSpringToggle: !state.SilverSpringToggle
+    }));
+
+    const location = this.state.RockvilleToggle ? "Rockville" : "Silver Spring";
+    this.setState({ location });
+    console.log(this.state.location);
+  }
+
+  onChooseImagePress = async () => {
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    // await Permissions.askAsync(Permissions.CAMERA);
+
+    let result = await ImagePicker.launchImageLibraryAsync({ base64: true });
+    // let result = await ImagePicker.launchCameraAsync();
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.uploadImage(result.uri)
+        .then(() => {
+          console.log("Success!!");
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
+
+  uploadImage = async uri => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    var ref = firebase
+      .storage()
+      .ref()
+      .child(uuid.v4());
+    var uploadTask = ref.put(blob, {
+      contentType: "image/jpeg"
+    });
+
+    uploadTask.on(
+      "state_changed",
+      function(snapshot) {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      function(error) {
+        console.log(error);
+      },
+      function() {
+        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          console.log("File available at", downloadURL);
+        });
+      }
+    );
+  };
+
   renderButton() {
     if (this.state.loading) {
       return (
@@ -108,17 +172,6 @@ class AddItemScreen extends Component {
         <Text>Add Item</Text>
       </Button>
     );
-  }
-
-  handleLocationToggle() {
-    this.setState(state => ({
-      RockvilleToggle: !state.RockvilleToggle,
-      SilverSpringToggle: !state.SilverSpringToggle
-    }));
-
-    const location = this.state.RockvilleToggle ? "Rockville" : "Silver Spring";
-    this.setState({ location });
-    console.log(this.state.location);
   }
 
   render() {
@@ -186,15 +239,27 @@ class AddItemScreen extends Component {
               </Picker>
             </View>
           </CardItem>
-          <CardItem>
+          <CardItem bordered>
             <Textarea
               rowSpan={5}
-              bordered
               placeholder="Description (optional)"
               onChangeText={description => this.setState({ description })}
               value={this.props.description}
               style={{ width: "100%" }}
             />
+          </CardItem>
+          <CardItem bordered>
+            <Button
+              title="Choose image..."
+              onPress={this.onChooseImagePress}
+              style={{
+                justifyContent: "center",
+                width: "70%",
+                backgroundColor: theme.colors.secondary
+              }}
+            >
+              <Text>Choose image...</Text>
+            </Button>
           </CardItem>
           <ErrorText>{this.state.error}</ErrorText>
           <CardItem style={{ height: 80, justifyContent: "center" }}>
