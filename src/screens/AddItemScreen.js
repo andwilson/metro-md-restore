@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Picker, Switch, Platform } from "react-native";
+import { Picker, Switch, Image } from "react-native";
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import * as firebase from "firebase";
 import theme from "../theme";
 
 import LeftRight from "../components/LeftRight";
+import { getTimeFieldValues } from "uuid-js";
 
 const CATEGORIES = [
   "Plumbing",
@@ -50,7 +51,6 @@ class AddItemScreen extends Component {
     price: 0,
     RockvilleToggle: true,
     SilverSpringToggle: false,
-    location: "Rockville",
     category: CATEGORIES[0],
     description: "",
     error: "",
@@ -65,7 +65,7 @@ class AddItemScreen extends Component {
   }
 
   onFormSubmit() {
-    const { title, price, category, description } = this.state;
+    const { title, price, category, description, image } = this.state;
     // this.setState({ error: "", loading: true });
 
     const posted = new Date();
@@ -76,7 +76,7 @@ class AddItemScreen extends Component {
     firebase
       .database()
       .ref("/items")
-      .push({ title, price, location, category, description, posted })
+      .push({ title, image, price, location, category, description, posted })
       .then(() => {
         this.setState({
           title: "",
@@ -87,7 +87,8 @@ class AddItemScreen extends Component {
           category: CATEGORIES[0],
           description: "",
           error: "",
-          loading: false
+          loading: false,
+          uploading: false
         });
         this.props.navigation.goBack();
         this.props.navigation.navigate("Home");
@@ -114,6 +115,7 @@ class AddItemScreen extends Component {
     // let result = await ImagePicker.launchCameraAsync();
 
     if (!result.cancelled) {
+      this.setState({ uploading: true });
       fetch(
         "https://us-central1-metro-md-restore.cloudfunctions.net/storeImage",
         {
@@ -125,10 +127,12 @@ class AddItemScreen extends Component {
       )
         .catch(error => {
           console.log(error);
+          this.setState({ uploading: false });
         })
         .then(res => res.json())
         .then(parsedRes => {
           console.log(parsedRes);
+          this.setState({ image: parsedRes.imageUrl, uploading: false });
         });
     }
   };
@@ -168,6 +172,19 @@ class AddItemScreen extends Component {
               onChangeText={title => this.setState({ title })}
               value={this.props.title}
             />
+          </CardItem>
+          <CardItem bordered>
+            <Button
+              title="Choose image..."
+              onPress={this.onChooseImagePress}
+              style={{
+                justifyContent: "center",
+                width: "70%",
+                backgroundColor: theme.colors.secondary
+              }}
+            >
+              <Text>Choose image...</Text>
+            </Button>
           </CardItem>
           <CardItem bordered>
             <Input
@@ -230,19 +247,6 @@ class AddItemScreen extends Component {
               value={this.props.description}
               style={{ width: "100%" }}
             />
-          </CardItem>
-          <CardItem bordered>
-            <Button
-              title="Choose image..."
-              onPress={this.onChooseImagePress}
-              style={{
-                justifyContent: "center",
-                width: "70%",
-                backgroundColor: theme.colors.secondary
-              }}
-            >
-              <Text>Choose image...</Text>
-            </Button>
           </CardItem>
           <ErrorText>{this.state.error}</ErrorText>
           <CardItem style={{ height: 80, justifyContent: "center" }}>
