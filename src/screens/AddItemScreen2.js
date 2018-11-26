@@ -14,6 +14,7 @@ import {
 import styled from "styled-components/native";
 import { Permissions, ImagePicker } from "expo";
 import * as firebase from "firebase";
+import uuid from "uuid";
 
 import theme from "../theme";
 
@@ -106,31 +107,58 @@ class AddItemScreen extends Component {
   }
 
   onChooseImagePress = async () => {
+    // await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    // await Permissions.askAsync(Permissions.CAMERA);
+
     let result = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
       allowsEditing: true,
       aspect: [1, 1]
     });
     // let result = await ImagePicker.launchCameraAsync();
 
+    console.log(result);
+
     if (!result.cancelled) {
-      fetch(
-        "https://us-central1-metro-md-restore.cloudfunctions.net/storeImage",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            image: result.base64
-          })
-        }
-      )
+      this.uploadImage(result.uri)
+        .then(() => {
+          console.log("Success!!");
+        })
         .catch(error => {
           console.log(error);
-        })
-        .then(res => res.json())
-        .then(parsedRes => {
-          console.log(parsedRes);
         });
     }
+  };
+
+  uploadImage = async uri => {
+    // if (uri.includes("%")) uri = decodeURI(uri);
+    // const uploadUri = Platform.OS === "ios" ? uri.replace("file://", "") : uri;
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(uuid.v4() + ".jpg");
+    const snapshot = /*await*/ ref.put(blob, { contentType: "image/jpeg" });
+    return snapshot.downloadURL;
+
+    // const uploadTask = await ref.put(blob, { contentType: "image/jpeg" });
+    // uploadTask.on(
+    //   "state_changed",
+    //   snapshot => {
+    //     const progress =
+    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //     console.log("Upload is " + progress + "% done");
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   },
+    //   () => {
+    //     uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+    //       console.log("File available at", downloadURL);
+    //     });
+    //   }
+    // );
   };
 
   renderButton() {
