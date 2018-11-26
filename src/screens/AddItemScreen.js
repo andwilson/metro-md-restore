@@ -18,7 +18,6 @@ import * as firebase from "firebase";
 import theme from "../theme";
 
 import LeftRight from "../components/LeftRight";
-import { getTimeFieldValues } from "uuid-js";
 
 const CATEGORIES = [
   "Plumbing",
@@ -64,55 +63,17 @@ class AddItemScreen extends Component {
     await Permissions.askAsync(Permissions.CAMERA);
   }
 
-  onFormSubmit() {
-    const { title, price, category, description, image } = this.state;
-    // this.setState({ error: "", loading: true });
-
-    const posted = new Date();
-    const location = this.state.RockvilleToggle ? "Rockville" : "Silver Spring";
-
-    // console.log(title, price, location, category, description, posted);
-
-    firebase
-      .database()
-      .ref("/items")
-      .push({ title, image, price, location, category, description, posted })
-      .then(() => {
-        this.setState({
-          title: "",
-          price: 0,
-          RockvilleToggle: true,
-          SilverSpringToggle: false,
-          location: "Rockville",
-          category: CATEGORIES[0],
-          description: "",
-          error: "",
-          loading: false,
-          uploading: false
-        });
-        this.props.navigation.goBack();
-        this.props.navigation.navigate("Home");
-      });
-  }
-
-  handleLocationToggle() {
-    this.setState(state => ({
-      RockvilleToggle: !state.RockvilleToggle,
-      SilverSpringToggle: !state.SilverSpringToggle
-    }));
-
-    const location = this.state.RockvilleToggle ? "Rockville" : "Silver Spring";
-    this.setState({ location });
-    console.log(this.state.location);
-  }
-
   onChooseImagePress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       base64: true,
       allowsEditing: true,
       aspect: [1, 1]
     });
-    // let result = await ImagePicker.launchCameraAsync();
+    // let result = await ImagePicker.launchCameraAsync({
+    //   base64: true,
+    //   allowsEditing: true,
+    //   aspect: [1, 1]
+    // });
 
     if (!result.cancelled) {
       this.setState({ uploading: true });
@@ -136,6 +97,79 @@ class AddItemScreen extends Component {
         });
     }
   };
+
+  handleLocationToggle() {
+    this.setState(state => ({
+      RockvilleToggle: !state.RockvilleToggle,
+      SilverSpringToggle: !state.SilverSpringToggle
+    }));
+
+    const location = this.state.RockvilleToggle ? "Rockville" : "Silver Spring";
+    this.setState({ location });
+    console.log(this.state.location);
+  }
+
+  onFormSubmit() {
+    const { title, price, category, description, image } = this.state;
+    // this.setState({ error: "", loading: true });
+
+    const posted = new Date();
+    const location = this.state.RockvilleToggle ? "Rockville" : "Silver Spring";
+
+    // console.log(title, price, location, category, description, posted);
+
+    firebase
+      .database()
+      .ref("/items")
+      .push({ title, image, price, location, category, description, posted })
+      .then(() => {
+        this.setState({
+          title: "",
+          price: 0,
+          RockvilleToggle: true,
+          SilverSpringToggle: false,
+          category: CATEGORIES[0],
+          description: "",
+          error: "",
+          loading: false,
+          uploading: false
+        });
+        this.props.navigation.goBack();
+        this.props.navigation.navigate("Home");
+      });
+  }
+
+  renderImage() {
+    if (this.state.image) {
+      return (
+        <Image
+          source={{ uri: this.state.image }}
+          style={{ height: 200, width: 200 }}
+        />
+      );
+    } else if (this.state.uploading) {
+      return (
+        <Spinner
+          color={theme.colors.primary}
+          size="small"
+          style={{ alignSelf: "center" }}
+        />
+      );
+    }
+    return (
+      <Button
+        title="Choose image..."
+        onPress={this.onChooseImagePress}
+        style={{
+          justifyContent: "center",
+          width: "70%",
+          backgroundColor: theme.colors.secondary
+        }}
+      >
+        <Text>Choose image...</Text>
+      </Button>
+    );
+  }
 
   renderButton() {
     if (this.state.loading) {
@@ -173,19 +207,7 @@ class AddItemScreen extends Component {
               value={this.props.title}
             />
           </CardItem>
-          <CardItem bordered>
-            <Button
-              title="Choose image..."
-              onPress={this.onChooseImagePress}
-              style={{
-                justifyContent: "center",
-                width: "70%",
-                backgroundColor: theme.colors.secondary
-              }}
-            >
-              <Text>Choose image...</Text>
-            </Button>
-          </CardItem>
+          <CardItem bordered>{this.renderImage()}</CardItem>
           <CardItem bordered>
             <Input
               label="Price"
