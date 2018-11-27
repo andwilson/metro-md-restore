@@ -46,7 +46,7 @@ const CATEGORIES = [
 class AddItemScreen extends Component {
   state = {
     title: "",
-    price: 0,
+    price: null,
     RockvilleToggle: true,
     SilverSpringToggle: false,
     category: CATEGORIES[0],
@@ -69,33 +69,36 @@ class AddItemScreen extends Component {
   }
 
   onFormSubmit() {
+    this.setState({ error: "", loading: true });
     const { title, price, category, description, image } = this.state;
-    // this.setState({ error: "", loading: true });
-
-    const posted = new Date();
     const location = this.state.RockvilleToggle ? "Rockville" : "Silver Spring";
+    const posted = firebase.database.ServerValue.TIMESTAMP;
 
-    // console.log(title, price, location, category, description, posted);
-
-    firebase
-      .database()
-      .ref("/items")
-      .push({ title, image, price, location, category, description, posted })
-      .then(() => {
-        this.setState({
-          title: "",
-          price: 0,
-          RockvilleToggle: true,
-          SilverSpringToggle: false,
-          category: CATEGORIES[0],
-          description: "",
-          error: "",
-          loading: false,
-          uploading: false
+    if (title.length <= 0 || !price || !image) {
+      this.setState({ error: "Please fill out all fields", loading: false });
+    } else {
+      console.log(posted);
+      firebase
+        .database()
+        .ref("/items")
+        .push({ title, image, price, location, category, description, posted })
+        .then(() => {
+          this.setState({
+            title: "",
+            price: 0,
+            RockvilleToggle: true,
+            SilverSpringToggle: false,
+            category: CATEGORIES[0],
+            description: "",
+            error: "",
+            loading: false,
+            uploading: false,
+            image: null
+          });
+          this.props.navigation.goBack();
+          this.props.navigation.navigate("Home");
         });
-        this.props.navigation.goBack();
-        this.props.navigation.navigate("Home");
-      });
+    }
   }
 
   uploadImage(result) {
@@ -180,7 +183,7 @@ class AddItemScreen extends Component {
               placeholder="Price"
               onChangeText={price => this.setState({ price })}
               value={this.props.price}
-              keyboardType="numeric"
+              keyboardType="number-pad"
             />
           </CardItem>
           <CardItem bordered>

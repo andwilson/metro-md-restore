@@ -31,9 +31,7 @@ const ItemCard = ({ item }) => {
           <StyText note>
             {location}
             {" – "}
-            <Text note>
-              <TimeAgo datetime={new Date(posted)} />
-            </Text>
+            <Text note>{posted}</Text>
             {/* <Text note>{posted + "Z"}</Text> */}
           </StyText>
           <StyText note style={{ color: "black" }}>

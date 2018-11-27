@@ -18,7 +18,18 @@ class HomeScreen extends Component {
 
     itemsRef.on("value", snapshot => {
       const itemsArray = this.snapshotToArray(snapshot.val());
-      this.setState({ items: itemsArray, loading: false });
+      const sortedArray = itemsArray.sort((a, b) => {
+        const dateA = new Date(a.posted);
+        const dateB = new Date(b.posted);
+        let comparison = 0;
+        if (dateA > dateB) {
+          comparison = -1;
+        } else if (dateA < dateB) {
+          comparison = 1;
+        }
+        return comparison;
+      });
+      this.setState({ items: sortedArray, loading: false });
     });
   }
 
