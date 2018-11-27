@@ -14,6 +14,7 @@ import {
 import styled from "styled-components/native";
 import { Permissions, ImagePicker } from "expo";
 import * as firebase from "firebase";
+import { FontAwesome } from "@expo/vector-icons";
 
 import theme from "../theme";
 
@@ -144,7 +145,7 @@ class AddItemScreen extends Component {
       return (
         <Image
           source={{ uri: this.state.image }}
-          style={{ height: 200, width: 200 }}
+          style={{ height: 200, width: 200, alignSelf: "center" }}
         />
       );
     } else if (this.state.uploading) {
@@ -157,17 +158,40 @@ class AddItemScreen extends Component {
       );
     }
     return (
-      <Button
-        title="Choose image..."
-        onPress={this.onChooseImagePress}
+      <View
         style={{
-          justifyContent: "center",
-          width: "70%",
-          backgroundColor: theme.colors.secondary
+          display: "flex",
+          width: "100%",
+          height: "100%",
+          justifyContent: "center"
         }}
       >
-        <Text>Choose image...</Text>
-      </Button>
+        <Button
+          onPress={this.onChooseImagePress}
+          style={{
+            alignSelf: "center",
+            justifyContent: "center",
+            width: 200,
+            backgroundColor: theme.colors.secondary,
+            marginBottom: 50
+          }}
+        >
+          <FontAwesome name="photo" size={20} color="white" />
+          <Text>Select an image</Text>
+        </Button>
+        <Button
+          //onPress={this.onChooseImagePress}
+          style={{
+            alignSelf: "center",
+            justifyContent: "center",
+            width: 200,
+            backgroundColor: theme.colors.secondary
+          }}
+        >
+          <FontAwesome name="camera" size={20} color="white" />
+          <Text>Take a photo</Text>
+        </Button>
+      </View>
     );
   }
 
@@ -205,23 +229,34 @@ class AddItemScreen extends Component {
               placeholder="What are you selling?"
               onChangeText={title => this.setState({ title })}
               value={this.props.title}
-            />
-          </CardItem>
-          <CardItem bordered>{this.renderImage()}</CardItem>
-          <CardItem bordered>
-            <Input
-              label="Price"
-              placeholder="Price"
-              onChangeText={price => this.setState({ price })}
-              value={this.props.price}
+              maxLength={100}
             />
           </CardItem>
           <CardItem bordered>
             <View
               style={{
                 display: "flex",
-                flexDirection: "column",
-                width: "100%"
+                width: "100%",
+                height: 220,
+                justifyContent: "center"
+              }}
+            >
+              {this.renderImage()}
+            </View>
+          </CardItem>
+          <CardItem bordered>
+            <Input
+              label="Price"
+              placeholder="Price"
+              onChangeText={price => this.setState({ price })}
+              value={this.props.price}
+              keyboardType="numeric"
+            />
+          </CardItem>
+          <CardItem bordered>
+            <View
+              style={{
+                display: "flex"
               }}
             >
               <Text>Location</Text>

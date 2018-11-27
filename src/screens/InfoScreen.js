@@ -174,14 +174,6 @@ const StyH1 = styled(H1)`
   color: ${props => props.theme.colors.primary};
 `;
 
-const Header = styled.Text`
-  font-size: 18;
-  font-weight: bold;
-  margin-top: 20;
-  margin-bottom: 5;
-  color: ${props => props.theme.colors.primary};
-`;
-
 const Social = styled.View`
   flex: 1;
   margin-top: 30;
