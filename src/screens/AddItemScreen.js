@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Picker, Switch, Image } from "react-native";
+import { Picker, Switch } from "react-native";
 import {
   View,
   Text,
@@ -12,12 +12,10 @@ import {
   Content
 } from "native-base";
 import styled from "styled-components/native";
-import { Permissions, ImagePicker } from "expo";
 import * as firebase from "firebase";
-import { FontAwesome } from "@expo/vector-icons";
-
 import theme from "../theme";
 
+import ImageSelector from "../components/ImageSelector";
 import LeftRight from "../components/LeftRight";
 
 const CATEGORIES = [
@@ -55,48 +53,8 @@ class AddItemScreen extends Component {
     description: "",
     error: "",
     loading: false,
-    image: null,
-    uploading: false
-  };
-
-  async componentDidMount() {
-    await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    await Permissions.askAsync(Permissions.CAMERA);
-  }
-
-  onChooseImagePress = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
-      allowsEditing: true,
-      aspect: [1, 1]
-    });
-    // let result = await ImagePicker.launchCameraAsync({
-    //   base64: true,
-    //   allowsEditing: true,
-    //   aspect: [1, 1]
-    // });
-
-    if (!result.cancelled) {
-      this.setState({ uploading: true });
-      fetch(
-        "https://us-central1-metro-md-restore.cloudfunctions.net/storeImage",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            image: result.base64
-          })
-        }
-      )
-        .catch(error => {
-          console.log(error);
-          this.setState({ uploading: false });
-        })
-        .then(res => res.json())
-        .then(parsedRes => {
-          console.log(parsedRes);
-          this.setState({ image: parsedRes.imageUrl, uploading: false });
-        });
-    }
+    uploading: false,
+    image: null
   };
 
   handleLocationToggle() {
@@ -140,59 +98,27 @@ class AddItemScreen extends Component {
       });
   }
 
-  renderImage() {
-    if (this.state.image) {
-      return (
-        <Image
-          source={{ uri: this.state.image }}
-          style={{ height: 200, width: 200, alignSelf: "center" }}
-        />
-      );
-    } else if (this.state.uploading) {
-      return (
-        <Spinner
-          color={theme.colors.primary}
-          size="small"
-          style={{ alignSelf: "center" }}
-        />
-      );
+  uploadImage(result) {
+    if (!result.cancelled) {
+      this.setState({ uploading: true });
+      fetch(
+        "https://us-central1-metro-md-restore.cloudfunctions.net/storeImage",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            image: result.base64
+          })
+        }
+      )
+        .catch(error => {
+          console.log(error);
+          this.setState({ uploading: false });
+        })
+        .then(res => res.json())
+        .then(parsedRes => {
+          this.setState({ image: parsedRes.imageUrl, uploading: false });
+        });
     }
-    return (
-      <View
-        style={{
-          display: "flex",
-          width: "100%",
-          height: "100%",
-          justifyContent: "center"
-        }}
-      >
-        <Button
-          onPress={this.onChooseImagePress}
-          style={{
-            alignSelf: "center",
-            justifyContent: "center",
-            width: 200,
-            backgroundColor: theme.colors.secondary,
-            marginBottom: 50
-          }}
-        >
-          <FontAwesome name="photo" size={20} color="white" />
-          <Text>Select an image</Text>
-        </Button>
-        <Button
-          //onPress={this.onChooseImagePress}
-          style={{
-            alignSelf: "center",
-            justifyContent: "center",
-            width: 200,
-            backgroundColor: theme.colors.secondary
-          }}
-        >
-          <FontAwesome name="camera" size={20} color="white" />
-          <Text>Take a photo</Text>
-        </Button>
-      </View>
-    );
   }
 
   renderButton() {
@@ -241,7 +167,11 @@ class AddItemScreen extends Component {
                 justifyContent: "center"
               }}
             >
-              {this.renderImage()}
+              <ImageSelector
+                uploadImage={this.uploadImage.bind(this)}
+                uploading={this.state.uploading}
+                image={this.state.image}
+              />
             </View>
           </CardItem>
           <CardItem bordered>
@@ -256,7 +186,8 @@ class AddItemScreen extends Component {
           <CardItem bordered>
             <View
               style={{
-                display: "flex"
+                display: "flex",
+                width: "100%"
               }}
             >
               <Text>Location</Text>
