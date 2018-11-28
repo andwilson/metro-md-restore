@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
-import { Container, Spinner, View, Button, Text, Fab } from "native-base";
+import { Container, Spinner, View, Button, Fab } from "native-base";
 import styled from "styled-components/native";
-import { Actions } from "react-navigation";
 import * as firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -73,7 +72,14 @@ class HomeScreen extends Component {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={this.state.items}
-        renderItem={({ item }) => <ItemCard item={item} key={item.key} />}
+        renderItem={({ item }) => (
+          <ItemCard
+            item={item}
+            key={item.key}
+            loggedIn={this.state.loggedIn}
+            navigation={this.props.navigation}
+          />
+        )}
       />
     );
   }

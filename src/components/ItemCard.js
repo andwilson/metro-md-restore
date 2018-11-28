@@ -4,8 +4,12 @@ import styled from "styled-components/native";
 import { Card, CardItem, Text, View, H2 } from "native-base";
 import TimeAgo from "react-native-timeago";
 
-const ItemCard = ({ item }) => {
+import { Entypo } from "@expo/vector-icons";
+
+const ItemCard = ({ item, loggedIn, navigation }) => {
   const { title, category, price, location, posted, description, image } = item;
+  const postedTimestamp = new Date(posted);
+
   return (
     <Card
       style={{
@@ -21,8 +25,18 @@ const ItemCard = ({ item }) => {
           style={{ resizeMode: "cover", height: "100%", width: "100%" }}
         />
         <PriceView>
-          <PriceText>${price}</PriceText>
+          <ImageText>${price}</ImageText>
         </PriceView>
+        {loggedIn ? (
+          <EditButtonView>
+            <Entypo
+              name="dots-three-horizontal"
+              size={15}
+              color="white"
+              onPress={() => navigation.push("EditItem", item)}
+            />
+          </EditButtonView>
+        ) : null}
       </ImageContainer>
       <CardItem>
         <View style={{ lineHeight: 5 }}>
@@ -31,8 +45,9 @@ const ItemCard = ({ item }) => {
           <StyText note>
             {location}
             {" – "}
-            <Text note>{posted}</Text>
-            {/* <Text note>{posted + "Z"}</Text> */}
+            <Text note>
+              <TimeAgo time={postedTimestamp} />
+            </Text>
           </StyText>
           <StyText note style={{ color: "black" }}>
             {description}
@@ -71,7 +86,16 @@ const PriceView = styled(View)`
   opacity: 0.75;
 `;
 
-const PriceText = styled(Text)`
+const EditButtonView = styled(PriceView)`
+  left: auto;
+  bottom: auto;
+  top: 15;
+  right: 15;
+  padding-bottom: 5;
+  padding-top: 5;
+`;
+
+const ImageText = styled(Text)`
   color: white;
   font-weight: bold;
 `;

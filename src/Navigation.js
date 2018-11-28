@@ -14,6 +14,7 @@ import DonateScreen from "./screens/DonateScreen";
 import SignInScreen from "./screens/SignInScreen";
 import Filters from "./components/Filters";
 import AddItemScreen from "./screens/AddItemScreen";
+import EditItemScreen from "./screens/EditItemScreen";
 
 import logo from "../assets/habitat-logo-smallest.png";
 
@@ -61,7 +62,13 @@ const HomeStack = createStackNavigator(
     AddItem: {
       screen: AddItemScreen,
       navigationOptions: {
-        title: "Add Item",
+        title: "Add Item"
+      }
+    },
+    EditItem: {
+      screen: EditItemScreen,
+      navigationOptions: {
+        title: "Edit Item"
       }
     }
   },
