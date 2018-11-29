@@ -3,6 +3,7 @@ import { View, Animated } from "react-native";
 import { Text, Button } from "native-base";
 import styled from "styled-components/native";
 import * as firebase from "firebase";
+import * as Animatable from "react-native-animatable";
 
 import { Entypo, MaterialIcons, Foundation } from "@expo/vector-icons";
 import theme from "../theme";
@@ -34,15 +35,18 @@ class EditButton extends Component {
       Animated.stagger(70, [
         Animated.timing(editButtonOpacity1, {
           toValue: 1,
-          duration: 200
+          duration: 200,
+          useNativeDriver: true
         }),
         Animated.timing(editButtonOpacity2, {
           toValue: 1,
-          duration: 200
+          duration: 200,
+          useNativeDriver: true
         }),
         Animated.timing(editButtonOpacity3, {
           toValue: 1,
-          duration: 200
+          duration: 200,
+          useNativeDriver: true
         })
       ]).start();
     } else {
@@ -158,9 +162,11 @@ class EditButton extends Component {
                 size={29}
                 color="white"
               />
-              <Text style={{ flex: 2 }}>
-                {this.state.sellButtonOpen ? "Mark as sold?" : "Sell"}
-              </Text>
+              <StyButtonText
+                animation={this.state.sellButtonOpen ? "fadeIn" : undefined}
+              >
+                {this.state.sellButtonOpen ? "Mark as\nsold?" : "Sell"}
+              </StyButtonText>
             </StyEditButton>
           </Animated.View>
           <Animated.View
@@ -181,7 +187,7 @@ class EditButton extends Component {
                 size={22}
                 color="white"
               />
-              <Text style={{ flex: 2 }}>Edit</Text>
+              <StyButtonText>Edit</StyButtonText>
             </StyEditButton>
           </Animated.View>
           <Animated.View
@@ -204,9 +210,11 @@ class EditButton extends Component {
                 size={25}
                 color="white"
               />
-              <Text style={{ flex: 2 }}>
-                {this.state.deleteButtonOpen ? "Delete forever?" : "Delete"}
-              </Text>
+              <StyButtonText
+                animation={this.state.deleteButtonOpen ? "fadeIn" : undefined}
+              >
+                {this.state.deleteButtonOpen ? "Delete\nforever?" : "Delete"}
+              </StyButtonText>
             </StyEditButton>
           </Animated.View>
         </Container>
@@ -245,6 +253,12 @@ const StyEditButton = styled(AnimatedButton)`
   shadow-offset: 0 1px;
   shadow-opacity: 0.3;
   shadow-radius: 2;
+`;
+
+const StyButtonText = styled(Animatable.Text)`
+  flex: 2;
+  color: white;
+  font-size: 17;
 `;
 
 export default EditButton;
