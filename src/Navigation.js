@@ -15,6 +15,7 @@ import SignInScreen from "./screens/SignInScreen";
 import Filters from "./components/Filters";
 import AddItemScreen from "./screens/AddItemScreen";
 import EditItemScreen from "./screens/EditItemScreen";
+import DeleteItemScreen from "./screens/DeleteItemScreen";
 
 import logo from "../assets/habitat-logo-smallest.png";
 
@@ -69,6 +70,12 @@ const HomeStack = createStackNavigator(
       screen: EditItemScreen,
       navigationOptions: {
         title: "Edit Item"
+      }
+    },
+    DeleteItem: {
+      screen: DeleteItemScreen,
+      navigationOptions: {
+        title: "Delete Item"
       }
     }
   },
