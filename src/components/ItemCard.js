@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import { Card, CardItem, Text, View, H2 } from "native-base";
 import TimeAgo from "react-native-timeago";
 
-import { Entypo } from "@expo/vector-icons";
+import EditButton from "../components/EditButton";
 
 const ItemCard = ({ item, loggedIn, navigation }) => {
   const { title, category, price, location, posted, description, image } = item;
@@ -27,16 +27,7 @@ const ItemCard = ({ item, loggedIn, navigation }) => {
         <PriceView>
           <ImageText>${price}</ImageText>
         </PriceView>
-        {loggedIn ? (
-          <EditButtonView>
-            <Entypo
-              name="dots-three-horizontal"
-              size={15}
-              color="white"
-              onPress={() => navigation.push("EditItem", item)}
-            />
-          </EditButtonView>
-        ) : null}
+        <EditButton item={item} loggedIn={loggedIn} navigation={navigation} />
       </ImageContainer>
       <CardItem>
         <View style={{ lineHeight: 5 }}>
@@ -84,15 +75,6 @@ const PriceView = styled(View)`
   background-color: black;
   border-radius: 5;
   opacity: 0.75;
-`;
-
-const EditButtonView = styled(PriceView)`
-  left: auto;
-  bottom: auto;
-  top: 15;
-  right: 15;
-  padding-bottom: 5;
-  padding-top: 5;
 `;
 
 const ImageText = styled(Text)`
