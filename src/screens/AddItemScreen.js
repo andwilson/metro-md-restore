@@ -85,7 +85,7 @@ class AddItemScreen extends Component {
         .then(() => {
           this.setState({
             title: "",
-            price: 0,
+            price: "",
             RockvilleToggle: true,
             SilverSpringToggle: false,
             category: CATEGORIES[0],
@@ -157,8 +157,9 @@ class AddItemScreen extends Component {
               label="Title"
               placeholder="What are you selling?"
               onChangeText={title => this.setState({ title })}
-              value={this.props.title}
+              value={this.state.title}
               maxLength={100}
+              returnKeyType="done"
             />
           </CardItem>
           <CardItem bordered>
@@ -176,15 +177,6 @@ class AddItemScreen extends Component {
                 image={this.state.image}
               />
             </View>
-          </CardItem>
-          <CardItem bordered>
-            <Input
-              label="Price"
-              placeholder="Price"
-              onChangeText={price => this.setState({ price })}
-              value={this.props.price}
-              keyboardType="number-pad"
-            />
           </CardItem>
           <CardItem bordered>
             <View
@@ -213,6 +205,16 @@ class AddItemScreen extends Component {
             </View>
           </CardItem>
           <CardItem bordered>
+            <Input
+              label="Price"
+              placeholder="Price"
+              onChangeText={price => this.setState({ price })}
+              value={this.state.price}
+              keyboardType="number-pad"
+              returnKeyType="done"
+            />
+          </CardItem>
+          <CardItem bordered>
             <View style={{ flex: 1, flexDirection: "column", height: 220 }}>
               <Text>Category</Text>
               <Picker
@@ -232,11 +234,13 @@ class AddItemScreen extends Component {
           </CardItem>
           <CardItem bordered>
             <Textarea
-              rowSpan={5}
+              rowSpan={3}
               placeholder="Description (optional)"
               onChangeText={description => this.setState({ description })}
-              value={this.props.description}
+              value={this.state.description}
               style={{ width: "100%" }}
+              blurOnSubmit
+              returnKeyType="done"
             />
           </CardItem>
           <ErrorText>{this.state.error}</ErrorText>

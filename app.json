@@ -19,7 +19,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "com.acclimate.metro-md-restore",
+      "bundleIdentifier": "com.acclimate.restore",
       "supportsTablet": false,
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera allows admins to take pictures to add new items to the store.",
@@ -27,7 +27,7 @@
       }
     },
     "android": {
-      "package": "com.acclimate.metro-md-restore"
+      "package": "com.acclimate.restore"
     }
   }
 }
