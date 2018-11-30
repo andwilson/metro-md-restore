@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Picker, Switch } from "react-native";
+import { Switch } from "react-native";
 import {
   View,
   Text,
@@ -9,52 +9,31 @@ import {
   Button,
   Spinner,
   Textarea,
-  Content
+  Content,
+  Picker
 } from "native-base";
 import styled from "styled-components/native";
+import { Entypo } from "@expo/vector-icons";
 import * as firebase from "firebase";
+
 import theme from "../theme";
+import { categories } from "../constants";
 
 import ImageSelector from "../components/ImageSelector";
 import LeftRight from "../components/LeftRight";
-
-const CATEGORIES = [
-  "Plumbing",
-  "Tools",
-  "Donations",
-  "Holiday",
-  "Hardware",
-  "Flooring",
-  "Lumber",
-  "Doors",
-  "Home Decor",
-  "Glass Case",
-  "Tile",
-  "Cabinets",
-  "Windows",
-  "Media",
-  "HVAC",
-  "Lighting",
-  "Furniture",
-  "Sports",
-  "Luggage",
-  "Electronics",
-  "Electrical",
-  "Rugs/Carpeting"
-];
 
 class AddItemScreen extends Component {
   state = {
     title: "",
     price: null,
+    category: undefined,
+    description: "",
+    image: null,
+    error: "",
     RockvilleToggle: true,
     SilverSpringToggle: false,
-    category: CATEGORIES[0],
-    description: "",
-    error: "",
     loading: false,
-    uploading: false,
-    image: null
+    uploading: false
   };
 
   handleLocationToggle() {
@@ -88,7 +67,7 @@ class AddItemScreen extends Component {
             price: "",
             RockvilleToggle: true,
             SilverSpringToggle: false,
-            category: CATEGORIES[0],
+            category: undefined,
             description: "",
             error: "",
             loading: false,
@@ -215,22 +194,20 @@ class AddItemScreen extends Component {
             />
           </CardItem>
           <CardItem bordered>
-            <View style={{ flex: 1, flexDirection: "column", height: 220 }}>
-              <Text>Category</Text>
-              <Picker
-                style={{ flex: 1 }}
-                selectedValue={this.state.category}
-                onValueChange={category => this.setState({ category })}
-              >
-                {CATEGORIES.map(category => (
-                  <Picker.Item
-                    label={category}
-                    value={category}
-                    key={category}
-                  />
-                ))}
-              </Picker>
-            </View>
+            <Picker
+              mode="dropdown"
+              iosIcon={
+                <Entypo name="chevron-down" color={theme.colors.primary} />
+              }
+              placeholder="Category"
+              style={{ width: undefined }}
+              selectedValue={this.state.category}
+              onValueChange={category => this.setState({ category })}
+            >
+              {categories.sort().map(category => (
+                <Picker.Item label={category} value={category} key={category} />
+              ))}
+            </Picker>
           </CardItem>
           <CardItem bordered>
             <Textarea

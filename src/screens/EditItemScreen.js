@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Picker, Switch } from "react-native";
+import { Switch } from "react-native";
 import {
   View,
   Text,
@@ -9,43 +9,29 @@ import {
   Button,
   Spinner,
   Textarea,
-  Content
+  Content,
+  Picker
 } from "native-base";
 import styled from "styled-components/native";
+import { Entypo } from "@expo/vector-icons";
 import * as firebase from "firebase";
+
 import theme from "../theme";
+import { categories } from "../constants";
 
 import ImageSelector from "../components/ImageSelector";
 import LeftRight from "../components/LeftRight";
 
-const CATEGORIES = [
-  "Plumbing",
-  "Tools",
-  "Donations",
-  "Holiday",
-  "Hardware",
-  "Flooring",
-  "Lumber",
-  "Doors",
-  "Home Decor",
-  "Glass Case",
-  "Tile",
-  "Cabinets",
-  "Windows",
-  "Media",
-  "HVAC",
-  "Lighting",
-  "Furniture",
-  "Sports",
-  "Luggage",
-  "Electronics",
-  "Electrical",
-  "Rugs/Carpeting"
-];
-
 class EditItemScreen extends Component {
   state = {
-    ...this.props.navigation.state.params
+    ...this.props.navigation.state.params,
+    error: "",
+    RockvilleToggle:
+      this.props.navigation.state.params.location == "Rockville" ? true : false,
+    SilverSpringToggle:
+      this.props.navigation.state.params.location == "Rockville" ? false : true,
+    loading: false,
+    uploading: false
   };
 
   handleLocationToggle() {
@@ -76,10 +62,10 @@ class EditItemScreen extends Component {
         .then(() => {
           this.setState({
             title: "",
-            price: 0,
+            price: "",
             RockvilleToggle: true,
             SilverSpringToggle: false,
-            category: CATEGORIES[0],
+            category: undefined,
             description: "",
             error: "",
             loading: false,
@@ -134,7 +120,7 @@ class EditItemScreen extends Component {
         }}
         onPress={this.onFormSubmit.bind(this)}
       >
-        <Text>Confirm Edits</Text>
+        <Text>Add Item</Text>
       </Button>
     );
   }
@@ -150,6 +136,7 @@ class EditItemScreen extends Component {
               onChangeText={title => this.setState({ title })}
               value={this.state.title}
               maxLength={100}
+              returnKeyType="done"
             />
           </CardItem>
           <CardItem bordered>
@@ -167,15 +154,6 @@ class EditItemScreen extends Component {
                 image={this.state.image}
               />
             </View>
-          </CardItem>
-          <CardItem bordered>
-            <Input
-              label="Price"
-              placeholder="Price"
-              onChangeText={price => this.setState({ price })}
-              value={this.props.price}
-              keyboardType="number-pad"
-            />
           </CardItem>
           <CardItem bordered>
             <View
@@ -204,30 +182,40 @@ class EditItemScreen extends Component {
             </View>
           </CardItem>
           <CardItem bordered>
-            <View style={{ flex: 1, flexDirection: "column", height: 220 }}>
-              <Text>Category</Text>
-              <Picker
-                style={{ flex: 1 }}
-                selectedValue={this.state.category}
-                onValueChange={category => this.setState({ category })}
-              >
-                {CATEGORIES.map(category => (
-                  <Picker.Item
-                    label={category}
-                    value={category}
-                    key={category}
-                  />
-                ))}
-              </Picker>
-            </View>
+            <Input
+              label="Price"
+              placeholder="Price"
+              onChangeText={price => this.setState({ price })}
+              value={this.state.price}
+              keyboardType="number-pad"
+              returnKeyType="done"
+            />
+          </CardItem>
+          <CardItem bordered>
+            <Picker
+              mode="dropdown"
+              iosIcon={
+                <Entypo name="chevron-down" color={theme.colors.primary} />
+              }
+              placeholder="Category"
+              style={{ width: undefined }}
+              selectedValue={this.state.category}
+              onValueChange={category => this.setState({ category })}
+            >
+              {categories.sort().map(category => (
+                <Picker.Item label={category} value={category} key={category} />
+              ))}
+            </Picker>
           </CardItem>
           <CardItem bordered>
             <Textarea
-              rowSpan={5}
+              rowSpan={3}
               placeholder="Description (optional)"
               onChangeText={description => this.setState({ description })}
-              value={this.props.description}
+              value={this.state.description}
               style={{ width: "100%" }}
+              blurOnSubmit
+              returnKeyType="done"
             />
           </CardItem>
           <ErrorText>{this.state.error}</ErrorText>
