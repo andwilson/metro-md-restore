@@ -51,22 +51,57 @@ class EditButton extends Component {
       ]).start();
     } else {
       Animated.stagger(70, [
-        Animated.timing(editButtonOpacity3, {
-          toValue: 0,
-          duration: 200
-        }),
+        Animated.parallel([
+          Animated.timing(editButtonOpacity3, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true
+          }),
+          this.shrinkDeleteButton()
+        ]),
         Animated.timing(editButtonOpacity2, {
           toValue: 0,
-          duration: 200
+          duration: 200,
+          useNativeDriver: true
         }),
-        Animated.timing(editButtonOpacity1, {
-          toValue: 0,
-          duration: 200
-        })
-      ]).start();
+        Animated.parallel([
+          Animated.timing(editButtonOpacity1, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true
+          }),
+          this.shrinkSellButton()
+        ])
+      ]).start(() =>
+        this.setState({ sellButtonOpen: false, deleteButtonOpen: false })
+      );
     }
     this.setState({ editButtonsOpen: !editButtonsOpen });
   };
+
+  shrinkSellButton() {
+    const { sellButtonWidth, sellButtonHeight } = this.state;
+    Animated.parallel([
+      Animated.spring(sellButtonWidth, {
+        toValue: 120
+      }),
+      Animated.spring(sellButtonHeight, {
+        toValue: 45
+      })
+    ]).start();
+  }
+
+  shrinkDeleteButton() {
+    const { deleteButtonWidth, deleteButtonHeight } = this.state;
+    Animated.parallel([
+      Animated.spring(deleteButtonWidth, {
+        toValue: 120
+      }),
+      Animated.spring(deleteButtonHeight, {
+        toValue: 45
+      })
+    ]).start();
+  }
 
   onSellPress = () => {
     const { sellButtonOpen, sellButtonWidth, sellButtonHeight } = this.state;
@@ -80,14 +115,7 @@ class EditButton extends Component {
         })
       ]).start();
     } else {
-      Animated.parallel([
-        Animated.spring(sellButtonWidth, {
-          toValue: 120
-        }),
-        Animated.spring(sellButtonHeight, {
-          toValue: 45
-        })
-      ]).start();
+      this.shrinkSellButton();
     }
     this.setState({ sellButtonOpen: !sellButtonOpen });
   };
@@ -108,14 +136,7 @@ class EditButton extends Component {
         })
       ]).start();
     } else {
-      Animated.parallel([
-        Animated.spring(deleteButtonWidth, {
-          toValue: 120
-        }),
-        Animated.spring(deleteButtonHeight, {
-          toValue: 45
-        })
-      ]).start();
+      this.shrinkDeleteButton();
       firebase
         .database()
         .ref(`items/${this.props.item.key}`)
@@ -179,6 +200,7 @@ class EditButton extends Component {
               warning
               onPress={() => {
                 navigation.push("EditItem", item);
+                this.toggleButtons()
               }}
             >
               <MaterialIcons
