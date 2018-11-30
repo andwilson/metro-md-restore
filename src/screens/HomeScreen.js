@@ -13,7 +13,7 @@ class HomeScreen extends Component {
   state = { items: [], loading: true, loggedIn: false };
 
   componentDidMount() {
-    const itemsRef = firebase.database().ref("/items/");
+    const itemsRef = firebase.database().ref("availableItems/");
 
     itemsRef.on("value", snapshot => {
       const itemsArray = this.snapshotToArray(snapshot.val());

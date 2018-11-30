@@ -116,6 +116,17 @@ class EditButton extends Component {
       ]).start();
     } else {
       this.shrinkSellButton();
+      firebase
+        .database()
+        .ref(`soldItems/${this.props.item.key}`)
+        .set({
+          ...this.props.item,
+          sold: firebase.database.ServerValue.TIMESTAMP
+        });
+      firebase
+        .database()
+        .ref(`availableItems/${this.props.item.key}`)
+        .remove();
     }
     this.setState({ sellButtonOpen: !sellButtonOpen });
   };
@@ -139,7 +150,7 @@ class EditButton extends Component {
       this.shrinkDeleteButton();
       firebase
         .database()
-        .ref(`items/${this.props.item.key}`)
+        .ref(`availableItems/${this.props.item.key}`)
         .remove();
     }
     this.setState({ deleteButtonOpen: !deleteButtonOpen });
@@ -200,7 +211,7 @@ class EditButton extends Component {
               warning
               onPress={() => {
                 navigation.push("EditItem", item);
-                this.toggleButtons()
+                this.toggleButtons();
               }}
             >
               <MaterialIcons

@@ -80,7 +80,7 @@ class AddItemScreen extends Component {
       console.log(posted);
       firebase
         .database()
-        .ref("/items")
+        .ref("/availableItems")
         .push({ title, image, price, location, category, description, posted })
         .then(() => {
           this.setState({
