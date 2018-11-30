@@ -22,19 +22,22 @@ import { categories } from "../constants";
 import ImageSelector from "../components/ImageSelector";
 import LeftRight from "../components/LeftRight";
 
+const initialState = {
+  title: "",
+  image: undefined,
+  location: "",
+  price: undefined,
+  category: undefined,
+  description: "",
+  error: "",
+  RockvilleToggle: true,
+  SilverSpringToggle: false,
+  loading: false,
+  uploading: false
+};
+
 class AddItemScreen extends Component {
-  state = {
-    title: "",
-    price: null,
-    category: undefined,
-    description: "",
-    image: null,
-    error: "",
-    RockvilleToggle: true,
-    SilverSpringToggle: false,
-    loading: false,
-    uploading: false
-  };
+  state = initialState;
 
   handleLocationToggle() {
     this.setState(state => ({
@@ -56,24 +59,12 @@ class AddItemScreen extends Component {
     if (title.length <= 0 || !price || !image) {
       this.setState({ error: "Please fill out all fields", loading: false });
     } else {
-      console.log(posted);
       firebase
         .database()
-        .ref("/availableItems")
+        .ref("availableItems/")
         .push({ title, image, price, location, category, description, posted })
         .then(() => {
-          this.setState({
-            title: "",
-            price: "",
-            RockvilleToggle: true,
-            SilverSpringToggle: false,
-            category: undefined,
-            description: "",
-            error: "",
-            loading: false,
-            uploading: false,
-            image: null
-          });
+          this.setState(initialState);
           this.props.navigation.goBack();
           this.props.navigation.navigate("Home");
         });

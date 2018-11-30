@@ -47,18 +47,17 @@ class EditItemScreen extends Component {
 
   onFormSubmit() {
     this.setState({ error: "", loading: true });
-    const { title, price, category, description, image } = this.state;
+    const { title, price, category, description, image, key } = this.state;
     const location = this.state.RockvilleToggle ? "Rockville" : "Silver Spring";
-    const posted = firebase.database.ServerValue.TIMESTAMP;
+    const edited = firebase.database.ServerValue.TIMESTAMP;
 
     if (title.length <= 0 || !price || !image) {
       this.setState({ error: "Please fill out all fields", loading: false });
     } else {
-      console.log(posted);
       firebase
         .database()
-        .ref("/availableItems")
-        .push({ title, image, price, location, category, description, posted })
+        .ref(`availableItems/${key}`)
+        .update({ title, image, price, location, category, description, edited })
         .then(() => {
           this.setState({
             title: "",
@@ -120,7 +119,7 @@ class EditItemScreen extends Component {
         }}
         onPress={this.onFormSubmit.bind(this)}
       >
-        <Text>Add Item</Text>
+        <Text>Confirm Edits</Text>
       </Button>
     );
   }
