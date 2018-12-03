@@ -8,7 +8,6 @@ import {
   Card,
   CardItem,
   H1,
-  H2,
   H3
 } from "native-base";
 import * as firebase from "firebase";

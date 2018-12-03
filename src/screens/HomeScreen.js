@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
-import { Container, Spinner, View, Button, Fab } from "native-base";
+import { Container, Content, Spinner, View, Fab } from "native-base";
 import styled from "styled-components/native";
 import * as firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
@@ -76,7 +76,6 @@ class HomeScreen extends Component {
           <ItemCard
             item={item}
             key={item.key}
-            loggedIn={this.state.loggedIn}
             navigation={this.props.navigation}
           />
         )}
@@ -84,20 +83,12 @@ class HomeScreen extends Component {
     );
   }
 
-  // addItem() {
-  //   const newItem = {
-  //     title: "Another dope thing",
-  //     category: "Mythical objects",
-  //     posted: new Date()
-  //   };
-
-  //   firebase.database().ref("/items/").push(newItem);
-  // }
-
   render() {
     return (
-      <Container padder>
-        <View>{this.renderItems()}</View>
+      <Container>
+        <Content padder>
+          <View>{this.renderItems()}</View>
+        </Content>
         {this.renderAddItem()}
       </Container>
     );
@@ -109,12 +100,6 @@ const SpinnerView = styled.View`
   height: 100%;
   align-items: center;
   justify-content: center;
-`;
-
-const StyButton = styled(Button)`
-  background-color: ${props => props.theme.colors.secondary};
-  margin-top: 30;
-  margin-bottom: 30;
 `;
 
 export default HomeScreen;

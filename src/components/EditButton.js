@@ -157,104 +157,101 @@ class EditButton extends Component {
   };
 
   render() {
-    const { item, loggedIn, navigation } = this.props;
+    const { item, navigation } = this.props;
     const {
       editButtonOpacity1,
       editButtonOpacity2,
       editButtonOpacity3
     } = this.state;
-    if (loggedIn) {
-      return (
-        <Container>
-          <StyDotsButton onPress={this.toggleButtons}>
-            <Entypo
-              name="dots-three-horizontal"
-              size={20}
+    
+    return (
+      <Container>
+        <StyDotsButton onPress={this.toggleButtons}>
+          <Entypo
+            name="dots-three-horizontal"
+            size={20}
+            color="white"
+            style={{ alignSelf: "center" }}
+          />
+        </StyDotsButton>
+        <Animated.View
+          style={{
+            opacity: editButtonOpacity1,
+            alignSelf: "flex-end"
+          }}
+        >
+          <StyEditButton
+            style={{
+              backgroundColor: theme.colors.secondary,
+              width: this.state.sellButtonWidth,
+              height: this.state.sellButtonHeight
+            }}
+            onPress={this.onSellPress}
+          >
+            <Foundation
+              style={{ flex: 1 }}
+              name="dollar"
+              size={29}
               color="white"
-              style={{ alignSelf: "center" }}
             />
-          </StyDotsButton>
-          <Animated.View
-            style={{
-              opacity: editButtonOpacity1,
-              alignSelf: "flex-end"
+            <StyButtonText
+              animation={this.state.sellButtonOpen ? "fadeIn" : undefined}
+            >
+              {this.state.sellButtonOpen ? "Mark as\nsold?" : "Sell"}
+            </StyButtonText>
+          </StyEditButton>
+        </Animated.View>
+        <Animated.View
+          style={{
+            opacity: editButtonOpacity2,
+            alignSelf: "flex-end"
+          }}
+        >
+          <StyEditButton
+            warning
+            onPress={() => {
+              navigation.push("EditItem", item);
+              this.toggleButtons();
             }}
           >
-            <StyEditButton
-              style={{
-                backgroundColor: theme.colors.secondary,
-                width: this.state.sellButtonWidth,
-                height: this.state.sellButtonHeight
-              }}
-              onPress={this.onSellPress}
-            >
-              <Foundation
-                style={{ flex: 1 }}
-                name="dollar"
-                size={29}
-                color="white"
-              />
-              <StyButtonText
-                animation={this.state.sellButtonOpen ? "fadeIn" : undefined}
-              >
-                {this.state.sellButtonOpen ? "Mark as\nsold?" : "Sell"}
-              </StyButtonText>
-            </StyEditButton>
-          </Animated.View>
-          <Animated.View
+            <MaterialIcons
+              style={{ flex: 1 }}
+              name="edit"
+              size={22}
+              color="white"
+            />
+            <StyButtonText>Edit</StyButtonText>
+          </StyEditButton>
+        </Animated.View>
+        <Animated.View
+          style={{
+            opacity: editButtonOpacity3,
+            alignSelf: "flex-end"
+          }}
+        >
+          <StyEditButton
+            danger
             style={{
-              opacity: editButtonOpacity2,
-              alignSelf: "flex-end"
+              width: this.state.deleteButtonWidth,
+              height: this.state.deleteButtonHeight
             }}
+            onPress={this.onDeletePress}
           >
-            <StyEditButton
-              warning
-              onPress={() => {
-                navigation.push("EditItem", item);
-                this.toggleButtons();
-              }}
+            <MaterialIcons
+              style={{ flex: 1 }}
+              name="delete-forever"
+              size={25}
+              color="white"
+            />
+            <StyButtonText
+              animation={this.state.deleteButtonOpen ? "fadeIn" : undefined}
             >
-              <MaterialIcons
-                style={{ flex: 1 }}
-                name="edit"
-                size={22}
-                color="white"
-              />
-              <StyButtonText>Edit</StyButtonText>
-            </StyEditButton>
-          </Animated.View>
-          <Animated.View
-            style={{
-              opacity: editButtonOpacity3,
-              alignSelf: "flex-end"
-            }}
-          >
-            <StyEditButton
-              danger
-              style={{
-                width: this.state.deleteButtonWidth,
-                height: this.state.deleteButtonHeight
-              }}
-              onPress={this.onDeletePress}
-            >
-              <MaterialIcons
-                style={{ flex: 1 }}
-                name="delete-forever"
-                size={25}
-                color="white"
-              />
-              <StyButtonText
-                animation={this.state.deleteButtonOpen ? "fadeIn" : undefined}
-              >
-                {this.state.deleteButtonOpen ? "Delete\nforever?" : "Delete"}
-              </StyButtonText>
-            </StyEditButton>
-          </Animated.View>
-        </Container>
-      );
-    } else {
-      return null;
-    }
+              {this.state.deleteButtonOpen ? "Delete\nforever?" : "Delete"}
+            </StyButtonText>
+          </StyEditButton>
+        </Animated.View>
+      </Container>
+    );
   }
 }
 
