@@ -165,6 +165,15 @@ class InfoScreen extends Component {
           </CardItem>
         </Card>
         {this.renderSignIn()}
+        <PrivacyPolicy
+          onPress={() => {
+            WebBrowser.openBrowserAsync(
+              "https://habitatmm.org/privacy-policy/"
+            );
+          }}
+        >
+          Privacy Policy
+        </PrivacyPolicy>
       </Content>
     );
   }
@@ -172,6 +181,12 @@ class InfoScreen extends Component {
 
 const StyH1 = styled(H1)`
   color: ${props => props.theme.colors.primary};
+`;
+
+const PrivacyPolicy = styled.Text`
+  align-self: center;
+  color: ${theme.colors.dark};
+  margin-bottom: 20;
 `;
 
 const Social = styled.View`
