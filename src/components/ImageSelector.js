@@ -10,7 +10,8 @@ class ImageSelector extends Component {
   onSelectImagePress = async () => {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let result = await ImagePicker.launchImageLibraryAsync({
-      base64: true
+      base64: true,
+      quality: 0.5
     });
     this.props.uploadImage(result);
   };
@@ -18,7 +19,8 @@ class ImageSelector extends Component {
   onTakePhotoPress = async () => {
     await Permissions.askAsync(Permissions.CAMERA);
     let result = await ImagePicker.launchCameraAsync({
-      base64: true
+      base64: true,
+      quality: 0.5
     });
     this.props.uploadImage(result);
   };
