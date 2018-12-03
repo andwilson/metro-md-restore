@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { FlatList } from "react-native";
-import { Container, Content, Spinner, View, Fab } from "native-base";
+import { FlatList, Dimensions } from "react-native";
+import { Container, Content, Spinner, Fab } from "native-base";
 import styled from "styled-components/native";
 import * as firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,14 +10,17 @@ import theme from "../theme";
 import ItemCard from "../components/ItemCard";
 
 class HomeScreen extends Component {
-  state = { items: [], loading: true, loggedIn: false };
+  state = { items: [], loading: true, loggedIn: false, filters: null };
 
   componentDidMount() {
     const itemsRef = firebase.database().ref("availableItems/");
 
     itemsRef.on("value", snapshot => {
       const itemsArray = this.snapshotToArray(snapshot.val());
-      const sortedArray = itemsArray.sort((a, b) => {
+      const filteredArray = itemsArray.filter(item => {
+        return item.location == "Rockville";
+      });
+      const sortedArray = filteredArray.sort((a, b) => {
         const dateA = new Date(a.posted);
         const dateB = new Date(b.posted);
         let comparison = 0;
@@ -59,7 +62,7 @@ class HomeScreen extends Component {
     }
   }
 
-  renderItems() {
+  renderSpinner() {
     if (this.state.loading) {
       return (
         <SpinnerView>
@@ -67,28 +70,31 @@ class HomeScreen extends Component {
         </SpinnerView>
       );
     }
+  }
 
-    return (
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={this.state.items}
-        renderItem={({ item }) => (
-          <ItemCard
-            item={item}
-            key={item.key}
-            navigation={this.props.navigation}
-          />
-        )}
-      />
-    );
+  renderItems() {
+    if (!this.state.loading) {
+      return (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={this.state.items}
+          renderItem={({ item }) => (
+            <ItemCard
+              item={item}
+              key={item.key}
+              navigation={this.props.navigation}
+            />
+          )}
+        />
+      );
+    }
   }
 
   render() {
     return (
       <Container>
-        <Content padder>
-          <View>{this.renderItems()}</View>
-        </Content>
+        {this.renderSpinner()}
+        <Content padder>{this.renderItems()}</Content>
         {this.renderAddItem()}
       </Container>
     );

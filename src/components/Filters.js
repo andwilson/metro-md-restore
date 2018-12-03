@@ -28,8 +28,8 @@ class Filters extends Component {
             <Text>Silver Spring</Text>
             <Switch />
           </LeftRight>
-          <H3 style={{ fontWeight: "200", marginTop: 15 }}>CATEGORIES</H3>
-          <CategoryFilter />
+          {/* <H3 style={{ fontWeight: "200", marginTop: 15 }}>CATEGORIES</H3>
+          <CategoryFilter /> */}
           <Button block style={{ backgroundColor: theme.colors.secondary }}>
             <Text>SUBMIT</Text>
           </Button>
