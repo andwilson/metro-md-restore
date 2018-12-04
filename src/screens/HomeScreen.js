@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList, Dimensions } from "react-native";
+import { FlatList } from "react-native";
 import { Container, Content, Spinner, Fab } from "native-base";
 import styled from "styled-components/native";
 import * as firebase from "firebase";
@@ -10,16 +10,35 @@ import theme from "../theme";
 import ItemCard from "../components/ItemCard";
 
 class HomeScreen extends Component {
-  state = { items: [], loading: true, loggedIn: false, filters: null };
+  state = {
+    items: [],
+    loading: true,
+    loggedIn: false,
+    filters: this.props.navigation.state.filters || undefined
+  };
+
+  componentWillMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    });
+  }
 
   componentDidMount() {
     const itemsRef = firebase.database().ref("availableItems/");
 
     itemsRef.on("value", snapshot => {
       const itemsArray = this.snapshotToArray(snapshot.val());
-      const filteredArray = itemsArray.filter(item => {
-        return item.location == "Rockville";
-      });
+      let filteredArray = itemsArray;
+      if (this.state.filters) {
+        filteredArray = itemsArray.filter(item => {
+          locationFilter = this.state.filters.includes(item.location);
+          return locationFilter;
+        });
+      }
       const sortedArray = filteredArray.sort((a, b) => {
         const dateA = new Date(a.posted);
         const dateB = new Date(b.posted);
@@ -32,16 +51,6 @@ class HomeScreen extends Component {
         return comparison;
       });
       this.setState({ items: sortedArray, loading: false });
-    });
-  }
-
-  componentWillMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.setState({ loggedIn: true });
-      } else {
-        this.setState({ loggedIn: false });
-      }
     });
   }
 

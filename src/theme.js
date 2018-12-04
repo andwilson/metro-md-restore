@@ -5,6 +5,7 @@ export default {
     secondary: "#5dba50",
     secondaryLight: "#bee3b9",
     light: "#F7F7F7",
+    medium: "#dbdcdb",
     dark: "#3D3D3D"
   }
 };

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Switch } from "react-native";
-import { Container, Content, Text, H3, Button } from "native-base";
+import { Container, Content, Text, H3, Button, ListItem, Left, Right, CheckBox } from "native-base";
+import styled from "styled-components/native";
 
-import LeftRight from "./LeftRight";
 import CategoryFilter from "../components/CategoryFilter";
 
 import theme from "../theme";
@@ -12,31 +11,44 @@ class Filters extends Component {
   render() {
     return (
       <Container>
-        <LeftRight style={{ backgroundColor: theme.colors.light }}>
-          <H3>Filters</H3>
+        <HeaderView>
           <Button bordered>
-            <Text>Clear</Text>
+            <Text>RESET</Text>
           </Button>
-        </LeftRight>
+          <H3>Filters</H3>
+          <Button>
+            <Text>APPLY</Text>
+          </Button>
+        </HeaderView>
         <Content padder>
-          <H3 style={{ fontWeight: "200", marginTop: 15 }}>LOCATION</H3>
-          <LeftRight>
-            <Text>Rockville</Text>
-            <Switch />
-          </LeftRight>
-          <LeftRight>
-            <Text>Silver Spring</Text>
-            <Switch />
-          </LeftRight>
+          <H3 style={{ fontWeight: "200" }}>LOCATION</H3>
+          <ListItem>
+            <Left><Text>Rockville</Text></Left>
+            <Right><CheckBox checked={true} /></Right>
+          </ListItem>
+          <ListItem>
+          <Left><Text>Silver Spring</Text></Left>
+            <Right><CheckBox checked={false} /></Right>
+          </ListItem>
           {/* <H3 style={{ fontWeight: "200", marginTop: 15 }}>CATEGORIES</H3>
           <CategoryFilter /> */}
-          <Button block style={{ backgroundColor: theme.colors.secondary }}>
-            <Text>SUBMIT</Text>
-          </Button>
         </Content>
       </Container>
     );
   }
 }
+
+const HeaderView = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: ${theme.colors.light};
+  padding-top: 10;
+  padding-bottom: 10;
+  border-bottom-width: 1;
+  border-bottom-color: ${theme.colors.medium};
+  margin-bottom: 10;
+`;
 
 export default Filters;
