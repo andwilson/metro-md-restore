@@ -80,8 +80,6 @@ class HomeScreen extends Component {
       const categoryFilter = navigation.getParam("categoryFilter", undefined);
       const minPriceFilter = navigation.getParam("minPriceFilter", undefined);
       const maxPriceFilter = navigation.getParam("maxPriceFilter", undefined);
-      console.log(typeof minPriceFilter, typeof maxPriceFilter);
-      console.log(minPriceFilter, maxPriceFilter);
       const filteredItems = items.filter(item => {
         if (
           locationFilter &&

@@ -11,7 +11,7 @@ class ImageSelector extends Component {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let result = await ImagePicker.launchImageLibraryAsync({
       base64: true,
-      quality: 0.5
+      quality: 0.4
     });
     this.props.uploadImage(result);
   };
@@ -20,7 +20,7 @@ class ImageSelector extends Component {
     await Permissions.askAsync(Permissions.CAMERA);
     let result = await ImagePicker.launchCameraAsync({
       base64: true,
-      quality: 0.5
+      quality: 0.4
     });
     this.props.uploadImage(result);
   };
