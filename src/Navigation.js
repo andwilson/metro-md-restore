@@ -130,7 +130,7 @@ const TabNavigator = createBottomTabNavigator(
     Home: {
       screen: HomeStack,
       navigationOptions: {
-        tabBarLabel: "Store",
+        tabBarLabel: "ReStore",
         tabBarIcon: ({ focused, tintColor }) => (
           <MaterialCommunityIcons
             name={`home${focused ? "" : "-outline"}`}

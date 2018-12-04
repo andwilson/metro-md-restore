@@ -97,13 +97,13 @@ class HomeScreen extends Component {
         }
         if (
           minPriceFilter &&
-          parseInt(item.price) <= parseInt(minPriceFilter)
+          parseInt(item.price) < parseInt(minPriceFilter)
         ) {
           return false;
         }
         if (
           maxPriceFilter &&
-          parseInt(item.price) >= parseInt(maxPriceFilter)
+          parseInt(item.price) > parseInt(maxPriceFilter)
         ) {
           return false;
         }

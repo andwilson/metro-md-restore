@@ -20,6 +20,17 @@ class ItemCard extends Component {
     });
   }
 
+  renderDescription = () => {
+    const { description } = this.props.item;
+    if (description && description.length > 0) {
+      return (
+        <StyText note style={{ color: "black" }}>
+          {description}
+        </StyText>
+      );
+    } else return null;
+  };
+
   render() {
     const { loggedIn } = this.state;
     const { item, navigation } = this.props;
@@ -57,9 +68,7 @@ class ItemCard extends Component {
                 <TimeAgo time={postedTimestamp} />
               </Text>
             </StyText>
-            <StyText note style={{ color: "black" }}>
-              {description}
-            </StyText>
+            {this.renderDescription()}
           </View>
         </CardItem>
       </Card>
