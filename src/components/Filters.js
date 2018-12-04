@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   Container,
   Content,
+  View,
   Text,
   H3,
   Button,
@@ -68,20 +69,31 @@ class Filters extends Component {
     console.log(this.state);
   };
 
+  onClearCategories = () => {
+    this.setState({ categoryFilter: [] });
+  };
+
   render() {
     return (
       <Container>
         <HeaderView>
-          <Button bordered onPress={this.onReset}>
-            <Text>RESET</Text>
+          <Button
+            bordered
+            onPress={this.onReset}
+            style={{ borderColor: theme.colors.primary }}
+          >
+            <Text style={{ color: theme.colors.primary }}>RESET</Text>
           </Button>
           <H3>Filters</H3>
-          <Button onPress={this.onSubmit}>
+          <Button
+            onPress={this.onSubmit}
+            style={{ backgroundColor: theme.colors.primary }}
+          >
             <Text>APPLY</Text>
           </Button>
         </HeaderView>
         <Content padder>
-          <H3 style={{ fontWeight: "200" }}>LOCATION</H3>
+          <H3 style={{ fontWeight: "200", marginTop: 10 }}>LOCATION</H3>
           <ListItem>
             <Left>
               <Text>Rockville</Text>
@@ -106,7 +118,25 @@ class Filters extends Component {
               />
             </Right>
           </ListItem>
-          <H3 style={{ fontWeight: "200" }}>CATEGORY</H3>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: 20
+            }}
+          >
+            <H3 style={{ fontWeight: "200" }}>CATEGORY</H3>
+            <Button
+              bordered
+              small
+              onPress={this.onClearCategories}
+              style={{ borderColor: theme.colors.primary }}
+            >
+              <Text style={{ color: theme.colors.primary }}>CLEAR</Text>
+            </Button>
+          </View>
           {categories.map(category => (
             <ListItem key={category}>
               <Left>
@@ -137,7 +167,6 @@ const HeaderView = styled.View`
   padding-bottom: 10;
   border-bottom-width: 1;
   border-bottom-color: ${theme.colors.medium};
-  margin-bottom: 10;
 `;
 
 export default Filters;
