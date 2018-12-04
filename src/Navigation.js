@@ -6,7 +6,7 @@ import {
   createDrawerNavigator,
   DrawerActions
 } from "react-navigation";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 
 import InfoScreen from "./screens/InfoScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -37,7 +37,7 @@ const DrawerButton = props => (
     style={{ paddingRight: 15 }}
     hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
   >
-    <MaterialCommunityIcons name="filter-variant" size={25} color="gray" />
+    <Ionicons name="ios-options" size={27} color="gray" />
   </TouchableOpacity>
 );
 
