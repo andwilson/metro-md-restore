@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Slider } from 'react-native';
 import {
   Container,
   Content,
@@ -54,7 +55,6 @@ class Filters extends Component {
       categoryFilter.push(categoryName);
       this.setState({ categoryFilter });
     }
-    console.log(categoryFilter);
   }
 
   onSubmit = () => {
@@ -66,7 +66,6 @@ class Filters extends Component {
 
   onReset = () => {
     this.setState(cloneDeep(initialState));
-    console.log(this.state);
   };
 
   onClearCategories = () => {
@@ -103,6 +102,7 @@ class Filters extends Component {
                 checked={this.state.locationFilter.includes("Rockville")}
                 color={theme.colors.secondary}
                 onPress={() => this.onLocationChange("Rockville")}
+                hitSlop={{top: 15, bottom: 15, left: 20, right: 20}}
               />
             </Right>
           </ListItem>
@@ -115,9 +115,12 @@ class Filters extends Component {
                 checked={this.state.locationFilter.includes("Silver Spring")}
                 color={theme.colors.secondary}
                 onPress={() => this.onLocationChange("Silver Spring")}
+                hitSlop={{top: 15, bottom: 15, left: 20, right: 20}}
               />
             </Right>
           </ListItem>
+          <H3 style={{ fontWeight: "200", marginTop: 20 }}>PRICE</H3>
+          <Slider />
           <View
             style={{
               flex: 1,
@@ -147,6 +150,7 @@ class Filters extends Component {
                   checked={this.state.categoryFilter.includes(category)}
                   color={theme.colors.secondary}
                   onPress={() => this.onCategoryChange(category)}
+                  hitSlop={{top: 15, bottom: 15, left: 20, right: 20}}
                 />
               </Right>
             </ListItem>

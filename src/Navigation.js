@@ -35,6 +35,7 @@ const DrawerButton = props => (
       props.navigation.dispatch(DrawerActions.toggleDrawer());
     }}
     style={{ paddingRight: 15 }}
+    hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
   >
     <MaterialCommunityIcons name="filter-variant" size={25} color="gray" />
   </TouchableOpacity>
@@ -54,7 +55,7 @@ const HomeStack = createStackNavigator(
     Home: {
       screen: HomeDrawer,
       navigationOptions: ({ navigation }) => ({
-        title: "Metro MD ReStore",
+        title: "ReStore",
         headerRight: <DrawerButton navigation={navigation} />,
         headerLeft: <HeaderLogo />
       })
