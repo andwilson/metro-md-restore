@@ -23,8 +23,8 @@ categories.sort();
 const initialState = {
   locationFilter: ["Rockville", "Silver Spring"],
   categoryFilter: categories,
-  minPriceFilter: null,
-  maxPriceFilter: null
+  minPriceFilter: undefined,
+  maxPriceFilter: undefined
 };
 
 class Filters extends Component {
@@ -57,9 +57,8 @@ class Filters extends Component {
   }
 
   onSubmit = () => {
-    const { locationFilter, categoryFilter } = this.state;
     const { navigation } = this.props;
-    navigation.navigate("Home", { locationFilter, categoryFilter });
+    navigation.navigate("Home", this.state);
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
 
@@ -190,6 +189,7 @@ class Filters extends Component {
               small
               onPress={this.onClearCategories}
               style={{ borderColor: theme.colors.primary, width: 80 }}
+              hitSlop={{ top: 10, bottom: 3, left: 5, right: 5 }}
             >
               <Text style={{ color: theme.colors.primary }}>CLEAR</Text>
             </Button>

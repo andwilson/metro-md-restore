@@ -76,15 +76,39 @@ class HomeScreen extends Component {
     if (!this.state.loading) {
       const { items } = this.state;
       const { navigation } = this.props;
-      const locationFilter = navigation.getParam("locationFilter", null);
-      const categoryFilter = navigation.getParam("categoryFilter", null);
-      let filteredItems = items;
-      if (locationFilter || categoryFilter) {
-        filteredItems = items.filter(item =>
-          locationFilter.includes(item.location) &&
-          categoryFilter.includes(item.category) 
-        );
-      }
+      const locationFilter = navigation.getParam("locationFilter", undefined);
+      const categoryFilter = navigation.getParam("categoryFilter", undefined);
+      const minPriceFilter = navigation.getParam("minPriceFilter", undefined);
+      const maxPriceFilter = navigation.getParam("maxPriceFilter", undefined);
+      console.log(typeof minPriceFilter, typeof maxPriceFilter);
+      console.log(minPriceFilter, maxPriceFilter);
+      const filteredItems = items.filter(item => {
+        if (
+          locationFilter &&
+          locationFilter.includes(item.location) === false
+        ) {
+          return false;
+        }
+        if (
+          categoryFilter &&
+          categoryFilter.includes(item.category) === false
+        ) {
+          return false;
+        }
+        if (
+          minPriceFilter &&
+          parseInt(item.price) <= parseInt(minPriceFilter)
+        ) {
+          return false;
+        }
+        if (
+          maxPriceFilter &&
+          parseInt(item.price) >= parseInt(maxPriceFilter)
+        ) {
+          return false;
+        }
+        return true;
+      });
       return (
         <FlatList
           showsVerticalScrollIndicator={false}
