@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Slider } from 'react-native';
 import {
   Container,
   Content,
@@ -24,7 +23,7 @@ categories.sort();
 const initialState = {
   locationFilter: ["Rockville", "Silver Spring"],
   categoryFilter: categories,
-  minPriceFilter: 0,
+  minPriceFilter: null,
   maxPriceFilter: null
 };
 
@@ -79,14 +78,14 @@ class Filters extends Component {
           <Button
             bordered
             onPress={this.onReset}
-            style={{ borderColor: theme.colors.primary }}
+            style={{ borderColor: theme.colors.primary, width: 80 }}
           >
             <Text style={{ color: theme.colors.primary }}>RESET</Text>
           </Button>
           <H3>Filters</H3>
           <Button
             onPress={this.onSubmit}
-            style={{ backgroundColor: theme.colors.primary }}
+            style={{ backgroundColor: theme.colors.primary, width: 80 }}
           >
             <Text>APPLY</Text>
           </Button>
@@ -102,7 +101,7 @@ class Filters extends Component {
                 checked={this.state.locationFilter.includes("Rockville")}
                 color={theme.colors.secondary}
                 onPress={() => this.onLocationChange("Rockville")}
-                hitSlop={{top: 15, bottom: 15, left: 20, right: 20}}
+                hitSlop={{ top: 15, bottom: 15, left: 20, right: 20 }}
               />
             </Right>
           </ListItem>
@@ -115,12 +114,67 @@ class Filters extends Component {
                 checked={this.state.locationFilter.includes("Silver Spring")}
                 color={theme.colors.secondary}
                 onPress={() => this.onLocationChange("Silver Spring")}
-                hitSlop={{top: 15, bottom: 15, left: 20, right: 20}}
+                hitSlop={{ top: 15, bottom: 15, left: 20, right: 20 }}
               />
             </Right>
           </ListItem>
-          <H3 style={{ fontWeight: "200", marginTop: 20 }}>PRICE</H3>
-          <Slider />
+          <H3 style={{ fontWeight: "200", marginTop: 20 }}>PRICE RANGE</H3>
+          <ListItem style={{ paddingRight: 0 }}>
+            <Left>
+              <Text>Min</Text>
+            </Left>
+            <Right
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                alignItems: "center"
+              }}
+            >
+              <Text style={{ marginRight: 5, color: theme.colors.dark }}>
+                $
+              </Text>
+              <MinMaxInput
+                label="minPriceFilter"
+                onChangeText={minPriceFilter =>
+                  this.setState({ minPriceFilter })
+                }
+                value={this.state.minPriceFilter}
+                keyboardType="number-pad"
+                returnKeyType="done"
+                clearTextOnFocus
+                textAlign="center"
+              />
+            </Right>
+          </ListItem>
+          <ListItem style={{ paddingRight: 0 }}>
+            <Left>
+              <Text>Max</Text>
+            </Left>
+            <Right
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                alignItems: "center"
+              }}
+            >
+              <Text style={{ marginRight: 5, color: theme.colors.dark }}>
+                $
+              </Text>
+              <MinMaxInput
+                label="maxPriceFilter"
+                onChangeText={maxPriceFilter =>
+                  this.setState({ maxPriceFilter })
+                }
+                value={this.state.maxPriceFilter}
+                keyboardType="number-pad"
+                returnKeyType="done"
+                clearTextOnFocus
+                textAlign="center"
+              />
+            </Right>
+          </ListItem>
           <View
             style={{
               flex: 1,
@@ -135,7 +189,7 @@ class Filters extends Component {
               bordered
               small
               onPress={this.onClearCategories}
-              style={{ borderColor: theme.colors.primary }}
+              style={{ borderColor: theme.colors.primary, width: 80 }}
             >
               <Text style={{ color: theme.colors.primary }}>CLEAR</Text>
             </Button>
@@ -150,7 +204,7 @@ class Filters extends Component {
                   checked={this.state.categoryFilter.includes(category)}
                   color={theme.colors.secondary}
                   onPress={() => this.onCategoryChange(category)}
-                  hitSlop={{top: 15, bottom: 15, left: 20, right: 20}}
+                  hitSlop={{ top: 15, bottom: 15, left: 20, right: 20 }}
                 />
               </Right>
             </ListItem>
@@ -171,6 +225,18 @@ const HeaderView = styled.View`
   padding-bottom: 10;
   border-bottom-width: 1;
   border-bottom-color: ${theme.colors.medium};
+`;
+
+const MinMaxInput = styled.TextInput`
+  display: flex;
+  align-items: center;
+  border-width: 1;
+  border-color: ${theme.colors.medium};
+  background-color: ${theme.colors.light};
+  width: 80;
+  border-radius: 5;
+  height: 30;
+  color: ${theme.colors.dark};
 `;
 
 export default Filters;
