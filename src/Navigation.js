@@ -25,7 +25,7 @@ const HomeDrawer = createDrawerNavigator(
     Home: HomeScreen
   },
   {
-    contentComponent: () => <Filters />
+    contentComponent: ({ navigation }) => <Filters navigation={navigation} />
   }
 );
 

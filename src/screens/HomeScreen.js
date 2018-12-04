@@ -13,8 +13,7 @@ class HomeScreen extends Component {
   state = {
     items: [],
     loading: true,
-    loggedIn: false,
-    filters: this.props.navigation.state.filters || undefined
+    loggedIn: false
   };
 
   componentWillMount() {
@@ -29,17 +28,9 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     const itemsRef = firebase.database().ref("availableItems/");
-
     itemsRef.on("value", snapshot => {
       const itemsArray = this.snapshotToArray(snapshot.val());
-      let filteredArray = itemsArray;
-      if (this.state.filters) {
-        filteredArray = itemsArray.filter(item => {
-          locationFilter = this.state.filters.includes(item.location);
-          return locationFilter;
-        });
-      }
-      const sortedArray = filteredArray.sort((a, b) => {
+      const sortedArray = itemsArray.sort((a, b) => {
         const dateA = new Date(a.posted);
         const dateB = new Date(b.posted);
         let comparison = 0;
@@ -83,10 +74,21 @@ class HomeScreen extends Component {
 
   renderItems() {
     if (!this.state.loading) {
+      const { items } = this.state;
+      const { navigation } = this.props;
+      const locationFilter = navigation.getParam("locationFilter", null);
+      const categoryFilter = navigation.getParam("categoryFilter", null);
+      let filteredItems = items;
+      if (locationFilter || categoryFilter) {
+        filteredItems = items.filter(item =>
+          locationFilter.includes(item.location) &&
+          categoryFilter.includes(item.category) 
+        );
+      }
       return (
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={this.state.items}
+          data={filteredItems}
           renderItem={({ item }) => (
             <ItemCard
               item={item}
