@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Container, Content, Text, H3, Button, ListItem, Left, Right, CheckBox } from "native-base";
+import {
+  Container,
+  Content,
+  Text,
+  H3,
+  Button,
+  ListItem,
+  Left,
+  Right,
+  CheckBox
+} from "native-base";
 import styled from "styled-components/native";
 
 import CategoryFilter from "../components/CategoryFilter";
@@ -7,7 +17,27 @@ import CategoryFilter from "../components/CategoryFilter";
 import theme from "../theme";
 
 class Filters extends Component {
-  state = { location: "Rockville", category: "", priceMin: 0, priceMax: null };
+  state = {
+    locations: ["Rockville", "Silver Spring"],
+    category: "",
+    priceMin: 0,
+    priceMax: null
+  };
+
+  onLocationChange = this.onLocationChange.bind(this);
+  onLocationChange(locationName) {
+    const { locations } = this.state;
+    const index = locations.indexOf(locationName);
+    if (index >= 0) {
+      locations.splice(index, 1);
+      this.setState({ locations });
+    } else {
+      locations.push(locationName);
+      this.setState({ locations });
+    }
+    console.log(this.state.locations);
+  }
+
   render() {
     return (
       <Container>
@@ -23,12 +53,28 @@ class Filters extends Component {
         <Content padder>
           <H3 style={{ fontWeight: "200" }}>LOCATION</H3>
           <ListItem>
-            <Left><Text>Rockville</Text></Left>
-            <Right><CheckBox checked={true} /></Right>
+            <Left>
+              <Text>Rockville</Text>
+            </Left>
+            <Right>
+              <CheckBox
+                checked={this.state.locations.includes("Rockville")}
+                color={theme.colors.secondary}
+                onPress={() => this.onLocationChange("Rockville")}
+              />
+            </Right>
           </ListItem>
           <ListItem>
-          <Left><Text>Silver Spring</Text></Left>
-            <Right><CheckBox checked={false} /></Right>
+            <Left>
+              <Text>Silver Spring</Text>
+            </Left>
+            <Right>
+              <CheckBox
+                checked={this.state.locations.includes("Silver Spring")}
+                color={theme.colors.secondary}
+                onPress={() => this.onLocationChange("Silver Spring")}
+              />
+            </Right>
           </ListItem>
           {/* <H3 style={{ fontWeight: "200", marginTop: 15 }}>CATEGORIES</H3>
           <CategoryFilter /> */}
