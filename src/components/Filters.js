@@ -59,7 +59,7 @@ class Filters extends Component {
   onSubmit = () => {
     const { navigation } = this.props;
     navigation.navigate("Home", this.state);
-    navigation.dispatch(DrawerActions.toggleDrawer());
+    navigation.dispatch(DrawerActions.closeDrawer());
   };
 
   onReset = () => {

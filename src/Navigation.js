@@ -4,7 +4,8 @@ import {
   createStackNavigator,
   createBottomTabNavigator,
   createDrawerNavigator,
-  DrawerActions
+  DrawerActions,
+  createAppContainer
 } from "react-navigation";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 
@@ -25,17 +26,25 @@ const HomeDrawer = createDrawerNavigator(
     Home: HomeScreen
   },
   {
-    contentComponent: ({ navigation }) => <Filters navigation={navigation} />
+    // drawerWidth: 300,
+    // drawerPosition: "left",
+    contentComponent: ({ navigation }) => (
+      <Filters
+        // style={{ backgroundColor: "white", width: "100%", height: "100%" }}
+        navigation={navigation}
+      />
+    )
   }
 );
 
 const DrawerButton = props => (
   <TouchableOpacity
     onPress={() => {
-      props.navigation.dispatch(DrawerActions.toggleDrawer());
+      // props.navigation.dispatch(DrawerActions.toggleDrawer());
+      props.navigation.toggleDrawer();
     }}
     style={{ paddingRight: 15 }}
-    hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
+    hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
   >
     <Ionicons name="ios-options" size={27} color="gray" />
   </TouchableOpacity>
@@ -156,13 +165,18 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: "Home",
+    // animationEnabled: false,
     tabBarOptions: {
       showIcon: true,
       showLabel: true,
       activeTintColor: "#005596",
-      inactiveTintColor: "gray"
+      inactiveTintColor: "gray",
+      scrollEnabled: false,
+      removeClippedSubviews: true
     }
   }
 );
 
-export default TabNavigator;
+const AppContainer = createAppContainer(TabNavigator)
+
+export default AppContainer;
