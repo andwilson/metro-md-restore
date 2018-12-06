@@ -20,10 +20,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.acclimate.restore",
-      "supportsTablet": false,
+      "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera allows admins to take pictures to add new items to the store.",
-        "NSPhotoLibraryUsageDescription": "This app uses the photo library to allow admins to upload pictures of new items to the store."
+        "NSPhotoLibraryUsageDescription": "This app uses the photo library to allow admins to upload pictures of new items to the store.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {

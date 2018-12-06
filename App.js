@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ThemeProvider } from "styled-components/native";
+import * as Expo from "expo";
 import * as firebase from "firebase";
 
 import Navigation from "./src/Navigation";
@@ -7,7 +8,7 @@ import Navigation from "./src/Navigation";
 import theme from "./src/theme";
 
 class App extends Component {
-  state = { loggedIn: false };
+  state = { isReady: false };
 
   componentWillMount() {
     firebase.initializeApp({
@@ -18,12 +19,27 @@ class App extends Component {
       storageBucket: "metro-md-restore.appspot.com",
       messagingSenderId: "989908703673"
     });
+
+    this.loadFonts();
+  }
+
+  async loadFonts() {
+    await Expo.Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+    });
+    this.setState({ isReady: true });
   }
 
   render() {
+    if (!this.state.isReady) {
+      return (
+        <Expo.AppLoading />
+      );
+    }
     return (
       <ThemeProvider theme={theme}>
-        <Navigation loggedIn={this.state.loggedIn} />
+        <Navigation />
       </ThemeProvider>
     );
   }
