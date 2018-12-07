@@ -13,6 +13,7 @@ import firebase from "firebase";
 import theme from "../theme";
 
 class SignInScreen extends Component {
+
   state = { email: "", password: "", error: "", loading: false };
 
   onButtonPress() {

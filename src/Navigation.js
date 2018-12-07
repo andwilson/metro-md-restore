@@ -4,7 +4,6 @@ import {
   createStackNavigator,
   createBottomTabNavigator,
   createDrawerNavigator,
-  DrawerActions,
   createAppContainer
 } from "react-navigation";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
@@ -93,13 +92,15 @@ const InfoStack = createStackNavigator(
       screen: InfoScreen,
       navigationOptions: {
         title: "Information",
-        headerLeft: <HeaderLogo />
+        headerLeft: <HeaderLogo />,
+        headerBackTitle: null
       }
     },
     SignIn: {
       screen: SignInScreen,
       navigationOptions: {
-        title: "Admin"
+        title: "Sign In",
+        headerTintColor: "black"
       }
     }
   },
@@ -113,8 +114,7 @@ const DonateStack = createStackNavigator(
     Donate: DonateScreen
   },
   {
-    navigationOptions: {
-      title: "Donate",
+    defaultNavigationOptions: {
       headerLeft: <HeaderLogo />
     },
     cardStyle: { backgroundColor: theme.colors.light }
@@ -177,6 +177,6 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-const AppContainer = createAppContainer(TabNavigator)
+const AppContainer = createAppContainer(TabNavigator);
 
 export default AppContainer;
