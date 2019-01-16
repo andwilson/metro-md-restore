@@ -27,7 +27,7 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    const itemsRef = firebase.database().ref("test/");
+    const itemsRef = firebase.database().ref("availableItems/");
     itemsRef.on("value", snapshot => {
       const itemsArray = this.snapshotToArray(snapshot.val());
       const sortedArray = itemsArray.sort((a, b) => {
