@@ -6,7 +6,7 @@
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -28,7 +28,9 @@
       }
     },
     "android": {
-      "package": "com.acclimate.restore"
+      "package": "com.acclimate.restore",
+      "versionCode": 2,
+      "permissions": ["CAMERA", "MANAGE_DOCUMENTS", "READ_EXTERNAL_STORAGE"]
     }
   }
 }

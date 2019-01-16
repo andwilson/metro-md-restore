@@ -27,7 +27,7 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    const itemsRef = firebase.database().ref("availableItems/");
+    const itemsRef = firebase.database().ref("test/");
     itemsRef.on("value", snapshot => {
       const itemsArray = this.snapshotToArray(snapshot.val());
       const sortedArray = itemsArray.sort((a, b) => {
@@ -45,8 +45,15 @@ class HomeScreen extends Component {
     });
   }
 
-  snapshotToArray = snapshot =>
-    Object.entries(snapshot).map(e => Object.assign(e[1], { key: e[0] }));
+  snapshotToArray = snapshot => {
+    if (snapshot) {
+      return Object.entries(snapshot).map(e =>
+        Object.assign(e[1], { key: e[0] })
+      );
+    } else {
+      return [];
+    }
+  };
 
   renderAddItem() {
     if (this.state.loggedIn) {
@@ -93,16 +100,10 @@ class HomeScreen extends Component {
         ) {
           return false;
         }
-        if (
-          minPriceFilter &&
-          parseInt(item.price) < parseInt(minPriceFilter)
-        ) {
+        if (minPriceFilter && parseInt(item.price) < parseInt(minPriceFilter)) {
           return false;
         }
-        if (
-          maxPriceFilter &&
-          parseInt(item.price) > parseInt(maxPriceFilter)
-        ) {
+        if (maxPriceFilter && parseInt(item.price) > parseInt(maxPriceFilter)) {
           return false;
         }
         return true;

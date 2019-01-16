@@ -113,7 +113,7 @@ class InfoScreen extends Component {
           </CardItem>
           <CardItem>
             <Text>
-              Habitat for Humanity ReStore® is a non-profit retail outlet
+              Habitat for Humanity ReStore® is a nonprofit retail outlet
               specializing in the resale of quality new and gently used
               furniture, antiques, appliances and building supplies. By taking
               in household goods and furniture donations, ReStore diverts tons
@@ -122,7 +122,7 @@ class InfoScreen extends Component {
               public at deep discounts and all proceeds are used to fund the
               building of affordable housing in Montgomery and Prince George’s
               Counties. To shop with a purpose and support a good cause come
-              visit our non-profit retail outlet in Rockville and Silver Spring
+              visit our nonprofit retail outlets in Rockville and Silver Spring
               today!
             </Text>
           </CardItem>
